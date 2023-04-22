@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "296294164908",
+    "project_id": "anireel-app",
+    "storage_bucket": "anireel-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296294164908:android:efa13b8bec9746c4dcf209",
+        "android_client_info": {
+          "package_name": "com.example.anime_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296294164908-bpv06tqk77imofqr7rrfq0p5mbrbj0bu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMzeasaicU3IcRE_kedK2erZPdsGfzCcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296294164908-bpv06tqk77imofqr7rrfq0p5mbrbj0bu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "296294164908-03pfc1k6855hgresa7emdq4iv32vka2r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.animeApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

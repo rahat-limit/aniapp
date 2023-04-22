@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>296294164908-03pfc1k6855hgresa7emdq4iv32vka2r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.296294164908-03pfc1k6855hgresa7emdq4iv32vka2r</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBS2W2NA_lL_ui7H1fq2ifPZ3SyOH28zxg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>296294164908</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.animeApp</string>
+	<key>PROJECT_ID</key>
+	<string>anireel-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>anireel-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:296294164908:ios:097e99c46474a0cddcf209</string>
+</dict>
+</plist>

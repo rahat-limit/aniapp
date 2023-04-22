@@ -1,0 +1,364 @@
+import 'package:anilibria/anilibria.dart';
+import 'package:anime_app/model/Title.dart';
+import 'package:dio/dio.dart';
+
+class ApiServices {
+  String startPoint = 'https://api.anilibria.tv/v2';
+  String get_random = '/getRandomTitle';
+  List<dynamic> genres = [];
+  String media = 'https://kodikdb.com/find-player?';
+  List<String> list_filters = [
+    'id',
+    'code',
+    'names',
+    'description',
+    'announce',
+    'genres',
+    'team',
+    'season',
+    'status',
+    'posters',
+    'type',
+    'player'
+  ];
+  String filters =
+      'filter=id,code,names,description,announce,genres,team,season,status,posters,type,player';
+  String get_search = '/v2/searchTitles?search=';
+  String get_genres = '/getGenres';
+
+  String getAgeRating(String json) {
+    String age = '';
+    switch (json) {
+      case 'G':
+        {
+          age = '0+';
+        }
+        break;
+      case 'PG':
+        {
+          age = '12+';
+        }
+        break;
+      case 'R':
+        {
+          age = '17+';
+        }
+        break;
+      case 'R18':
+        {
+          age = '18+';
+        }
+        break;
+      case '':
+        {
+          age = '?';
+        }
+        break;
+    }
+    return age;
+  }
+
+// kodik.info/serial/19248/803944eb832adacd4d4bec7d4221f941/720p?translations=false
+  Future getRandomTitleQuery(int times, List<AnimeTitle> items) async {
+    try {
+      Dio _dio = new Dio();
+      final anilibria = Anilibria(Uri.parse('$startPoint'));
+      List<AnimeTitle> _list = [];
+      for (int i = 0; i < times; i++) {
+        AnimeTitle title = AnimeTitle.init();
+        final element = await anilibria.getRandomTitle(filter: list_filters);
+        Response additionalResponse = await _dio.get(
+            'https://kitsu.io/api/edge/anime?fields[anime]=averageRating,ageRating,youtubeVideoId&filter[slug]=${element.code}');
+        AnimeTitle existTitle =
+            items.firstWhere((elem) => elem.id == element.id, orElse: () {
+          title = AnimeTitle(
+              id: element.id as int,
+              code: element.code as String,
+              names: {
+                "ru": element.names!.ru ?? '',
+                "en": element.names!.en ?? '',
+              },
+              description:
+                  element.description == null ? '' : element.description!,
+              announce: element.announce ?? '',
+              team: {
+                "voice": element.team!.voice,
+                "translator": element.team!.translator,
+                "editing": element.team!.editing,
+                "decor": element.team!.decor,
+                "timing": element.team!.timing
+              },
+              genres: (element.genres == null || element.genres!.isEmpty)
+                  ? []
+                  : element.genres,
+              season: {
+                "string": element.season!.string ?? '',
+                "code": element.season!.code ?? 1,
+                "year": element.season!.year ?? 2000,
+                "week_day": element.season!.weekDay ?? 0
+              },
+              status: {
+                "string": element.status!.string ?? '',
+                "code": element.status!.code ?? 0
+              },
+              posters: {
+                "small": {
+                  "url": element.posters!.small!.url ?? '',
+                  "raw_base64_file": element.posters!.small!.rawBase64File ?? ''
+                },
+                "medium": {
+                  "url": element.posters!.medium!.url ?? '',
+                  "raw_base64_file":
+                      element.posters!.medium!.rawBase64File ?? ''
+                },
+                "original": {
+                  "url": element.posters!.original!.url ?? '',
+                  "raw_base64_file":
+                      element.posters!.original!.rawBase64File ?? ''
+                }
+              },
+              type: {
+                "full_string": element.type!.fullString ?? '',
+                "code": element.type!.code ?? 0,
+                "string": element.type!.string ?? '',
+                "episodes": element.type!.series ?? 0,
+                "length": element.type!.length ?? 0
+              },
+              player: {
+                "alternative_player": element.player!.alternativePlayer ?? '',
+                "host": element.player!.host ?? '',
+                "episodes": {
+                  "first": element.player!.series!.first ?? 1,
+                  "last": element.player!.series!.last ?? 1,
+                  "string": element.player!.series!.string ?? ''
+                },
+              },
+              rating: additionalResponse.data['data'].length != 0
+                  ? additionalResponse.data['data'][0]['attributes']
+                          ['averageRating'] ??
+                      'no_rate'
+                  : 'no_rate',
+              ageRating: additionalResponse.data['data'].length != 0
+                  ? (getAgeRating(additionalResponse.data['data'][0]
+                          ['attributes']['ageRating'] ??
+                      ''))
+                  : 'no_rate',
+              trailer: '');
+          return title;
+        });
+
+        _list.add(existTitle);
+      }
+      return _list;
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print(e.message);
+      }
+    }
+  }
+
+  Future getAllGenresQuery() async {
+    try {
+      List<dynamic> _list = [];
+      Dio _dio = new Dio();
+      Response response = await _dio.get(startPoint + get_genres);
+      _list = response.data;
+      return _list;
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print(e.message);
+      }
+    }
+  }
+
+  Future getSearchTitlesQuery(
+      String searchText, bool flag, List<AnimeTitle> data,
+      [int after = 0]) async {
+    try {
+      Dio _dio = new Dio();
+      List<AnimeTitle> _list = [];
+      if (flag) {
+        final anilibria = Anilibria(Uri.parse(startPoint));
+        final response = await anilibria.searchTitles(
+            after: after,
+            genres: [searchText],
+            limit: 25,
+            filter: list_filters);
+
+        for (var element in response) {
+          AnimeTitle title = AnimeTitle.init();
+
+          Response additionalResponse = await _dio.get(
+              'https://kitsu.io/api/edge/anime?fields[anime]=averageRating,ageRating,youtubeVideoId&filter[slug]=${element.code}');
+
+          AnimeTitle item =
+              data.firstWhere((elem) => elem.id == element.id, orElse: () {
+            title = AnimeTitle(
+                id: element.id as int,
+                code: element.code as String,
+                names: {
+                  "ru": element.names!.ru ?? '',
+                  "en": element.names!.en ?? '',
+                },
+                description:
+                    element.description == null ? '' : element.description!,
+                announce: element.announce ?? '',
+                team: {
+                  "voice": element.team!.voice,
+                  "translator": element.team!.translator,
+                  "editing": element.team!.editing,
+                  "decor": element.team!.decor,
+                  "timing": element.team!.timing
+                },
+                genres: (element.genres == null || element.genres!.isEmpty)
+                    ? []
+                    : element.genres,
+                season: {
+                  "string": element.season!.string ?? '',
+                  "code": element.season!.code ?? 1,
+                  "year": element.season!.year ?? 2000,
+                  "week_day": element.season!.weekDay ?? 0
+                },
+                status: {
+                  "string": element.status!.string ?? '',
+                  "code": element.status!.code ?? 0
+                },
+                posters: {
+                  "small": {
+                    "url": element.posters!.small!.url,
+                    "raw_base64_file": element.posters!.small!.rawBase64File
+                  },
+                  "medium": {
+                    "url": element.posters!.medium!.url,
+                    "raw_base64_file": element.posters!.medium!.rawBase64File
+                  },
+                  "original": {
+                    "url": element.posters!.original!.url,
+                    "raw_base64_file": element.posters!.original!.rawBase64File
+                  }
+                },
+                type: {
+                  "full_string": element.type!.fullString,
+                  "code": element.type!.code ?? 0,
+                  "string": element.type!.string,
+                  "episodes": element.type!.series ?? 0,
+                  "length": element.type!.length ?? 0
+                },
+                player: {
+                  "alternative_player": element.player!.alternativePlayer ?? '',
+                  "host": element.player!.host ?? '',
+                  "episodes": {
+                    "first": element.player!.series!.first ?? 1,
+                    "last": element.player!.series!.last ?? 1,
+                    "string": element.player!.series!.string ?? ''
+                  },
+                },
+                rating: additionalResponse.data['data'].length != 0
+                    ? additionalResponse.data['data'][0]['attributes']
+                            ['averageRating'] ??
+                        'no_rate'
+                    : 'no_rate',
+                ageRating: additionalResponse.data['data'].length != 0
+                    ? (getAgeRating(additionalResponse.data['data'][0]
+                            ['attributes']['ageRating'] ??
+                        ''))
+                    : 'no_rate',
+                trailer: '');
+            return title;
+          });
+          _list.add(item);
+        }
+      } else {
+        AnimeTitle title = AnimeTitle.init();
+        final anilibria = Anilibria(Uri.parse(startPoint));
+        final response = await anilibria.searchTitles(
+            search: searchText, limit: 25, filter: list_filters);
+
+        for (var element in response) {
+          Response additionalResponse = await _dio.get(
+              'https://kitsu.io/api/edge/anime?fields[anime]=averageRating,ageRating,youtubeVideoId&filter[slug]=${element.code}');
+
+          _list
+              .add(data.firstWhere((elem) => element.id == elem.id, orElse: () {
+            return AnimeTitle(
+                id: element.id as int,
+                code: element.code as String,
+                names: {
+                  "ru": element.names!.ru ?? '',
+                  "en": element.names!.en ?? '',
+                },
+                description:
+                    element.description == null ? '' : element.description!,
+                announce: element.announce ?? '',
+                team: {
+                  "voice": element.team!.voice,
+                  "translator": element.team!.translator,
+                  "editing": element.team!.editing,
+                  "decor": element.team!.decor,
+                  "timing": element.team!.timing
+                },
+                genres: (element.genres == null || element.genres!.isEmpty)
+                    ? []
+                    : element.genres,
+                season: {
+                  "string": element.season!.string ?? '',
+                  "code": element.season!.code ?? 1,
+                  "year": element.season!.year ?? 2000,
+                  "week_day": element.season!.weekDay ?? 0
+                },
+                status: {
+                  "string": element.status!.string ?? '',
+                  "code": element.status!.code ?? 0
+                },
+                posters: {
+                  "small": {
+                    "url": element.posters!.small!.url,
+                    "raw_base64_file": element.posters!.small!.rawBase64File
+                  },
+                  "medium": {
+                    "url": element.posters!.medium!.url,
+                    "raw_base64_file": element.posters!.medium!.rawBase64File
+                  },
+                  "original": {
+                    "url": element.posters!.original!.url,
+                    "raw_base64_file": element.posters!.original!.rawBase64File
+                  }
+                },
+                type: {
+                  "full_string": element.type!.fullString,
+                  "code": element.type!.code ?? 0,
+                  "string": element.type!.string,
+                  "episodes": element.type!.series ?? 0,
+                  "length": element.type!.length ?? 0
+                },
+                player: {
+                  "alternative_player": element.player!.alternativePlayer ?? '',
+                  "host": element.player!.host ?? '',
+                  "episodes": {
+                    "first": element.player!.series!.first ?? 1,
+                    "last": element.player!.series!.last ?? 1,
+                    "string": element.player!.series!.string ?? ''
+                  },
+                },
+                rating: additionalResponse.data['data'].length != 0
+                    ? additionalResponse.data['data'][0]['attributes']
+                            ['averageRating'] ??
+                        'no_rate'
+                    : 'no_rate',
+                ageRating: additionalResponse.data['data'].length != 0
+                    ? (getAgeRating(additionalResponse.data['data'][0]
+                            ['attributes']['ageRating'] ??
+                        ''))
+                    : 'no_rate',
+                trailer: '');
+          }));
+        }
+      }
+      return _list;
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print(e.message);
+      }
+    }
+  }
+}
