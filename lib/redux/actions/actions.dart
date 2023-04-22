@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/services/api_services.dart';
+import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,38 @@ class ReloadFilteredTitlesAction {}
 class SetAuthIDAction {
   String id;
   SetAuthIDAction(this.id);
+}
+
+class GetStoredTitlesAction {
+  List<AnimeTitle> titles;
+  GetStoredTitlesAction(this.titles);
+}
+
+ThunkAction<AppState> getStoreOnDeviceTitles(String ids) {
+  return (Store store) async {
+    List<AnimeTitle> titles = [];
+    try {
+      await ApiServices()
+          .getLikedFromStoreTitles(ids)
+          .then((value) => titles = value);
+    } catch (e) {
+      print(e);
+    }
+    store.dispatch(GetStoredTitlesAction(titles));
+  };
+}
+
+ThunkAction<AppState> storeOnDevice(AnimeTitle title, List<AnimeTitle> liked) {
+  return (Store store) async {
+    var ids = '';
+    for (int i = 0; i < liked.length; i++) {
+      String sep = '';
+      if (i + 1 != liked.length) sep = ',';
+      ids = '$ids${liked[i].id}$sep';
+    }
+    await FileSystem().writeData(ids);
+    store.dispatch(ToggleLikeAction(title));
+  };
 }
 
 ThunkAction<AppState> getFilteredTitles(

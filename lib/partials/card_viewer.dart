@@ -1,6 +1,7 @@
 import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
+import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:anime_app/state/lib_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -50,12 +51,14 @@ class _CardViewerState extends State<CardViewer> {
           List<Widget> _list = lib.data
               .map(
                 (item) => GestureDetector(
-                  onDoubleTap: () {
+                  onDoubleTap: () async {
                     if (!_flag) {
                       var likedTitle =
                           Provider.of<AnimeLibrary>(context, listen: false)
                               .toggleToLikedProvider(item.id, data);
-                      store.dispatch(ToggleLikeAction(likedTitle));
+                      store.dispatch(storeOnDevice(
+                          likedTitle, store.state.lib_state.list.liked));
+
                       setState(() {
                         _flag = true;
                         _clicked = true;
@@ -159,6 +162,7 @@ class _CardViewerState extends State<CardViewer> {
                       setState(() {
                         _flag = false;
                       });
+
                       store.dispatch(getRandomTitles(data: data));
                       store.dispatch(ReloadTitlesAction());
                       store.dispatch(NextTitleAction());

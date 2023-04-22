@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:anime_app/model/Title.dart';
+import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:anime_app/redux/actions/actions.dart';
 import 'package:anime_app/state/lib_state.dart';
@@ -43,6 +46,23 @@ AppState stateReducer(AppState state, dynamic action) {
               : _info.currentIndex + 1),
       currentIndex: _info.currentIndex + 1,
     )));
+    return newState;
+  } else if (action is GetStoredTitlesAction) {
+    var _info = state.lib_state.list;
+
+    AppState newState = AppState(
+        lib_state: AnimeState(
+            list: ListAnimeState(
+                filtered: _info.filtered,
+                genres: _info.genres,
+                liked: [..._info.liked, ...action.titles],
+                error: false,
+                loading: _info.loading,
+                data: _info.data,
+                history: _info.data,
+                search: _info.search,
+                recentLikes: _info.recentLikes,
+                currentIndex: _info.currentIndex)));
     return newState;
   } else if (action is ReloadTitlesAction) {
     var _info = state.lib_state.list;
@@ -216,7 +236,6 @@ AppState stateReducer(AppState state, dynamic action) {
     var sameGenre = _info.filtered;
     sameGenre.addAll(action.list);
 
-    // print(action.list);
     _info.filtered.addAll(action.list);
     AppState newState = AppState(
         lib_state: AnimeState(

@@ -1,5 +1,6 @@
 import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/services/auth_services.dart';
+import 'package:anime_app/services/file_system.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -87,6 +88,31 @@ class AccountScreen extends StatelessWidget {
                           ),
                     const SizedBox(
                       height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 40.0),
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.all(12),
+                                    backgroundColor: Colors.blueGrey[300]),
+                                child: const Text('Очистить кэш',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                    )),
+                                onPressed: () async {
+                                  await FileSystem().removeData();
+                                }),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
                     ),
                     Row(
                       children: [

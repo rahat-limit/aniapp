@@ -6,6 +6,7 @@ import 'package:anime_app/screens/home_screen.dart';
 import 'package:anime_app/screens/library_screen.dart';
 import 'package:anime_app/screens/search_screen.dart';
 import 'package:anime_app/screens/signin_screen.dart';
+import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +32,6 @@ class _DividerScreenState extends State<DividerScreen> {
     SearchScreen(),
     AccountScreen()
   ];
-
   @override
   void initState() {
     FirebaseAuth.instance.authStateChanges().listen((user) async {
@@ -49,6 +49,17 @@ class _DividerScreenState extends State<DividerScreen> {
         store.dispatch(getRandomTitles(data: data));
         store.dispatch(getFilteredTitles(
             genre: 'Боевые исскуства', same: true, data: data));
+        if (store.state.lib_state.list.liked.isEmpty) {
+          await FileSystem().readData().then((value) {
+            if (value.isNotEmpty) {
+              store.dispatch(getStoreOnDeviceTitles(value));
+            }
+          });
+        }
+        await FileSystem().readData().then((value) {
+          print(value);
+        });
+
         store.dispatch(ReloadTitlesAction());
       }
     });

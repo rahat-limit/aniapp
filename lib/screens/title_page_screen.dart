@@ -201,7 +201,8 @@ class _TitlePageState extends State<TitlePage> {
                           var likedTitle =
                               Provider.of<AnimeLibrary>(context, listen: false)
                                   .toggleToLikedProvider(title.id, data);
-                          store.dispatch(ToggleLikeAction(likedTitle));
+                          store.dispatch(storeOnDevice(
+                              likedTitle, store.state.lib_state.list.liked));
                         },
                       ),
                     ]),

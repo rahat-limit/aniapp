@@ -3,6 +3,7 @@ import 'package:anime_app/partials/collection_content.dart';
 import 'package:anime_app/partials/history_content.dart';
 import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
+import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +24,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
   final controller = PageController(viewportFraction: 1, keepPage: true);
   int _activeIndex = 0;
   List<String> _tabBarTitles = ['Коллекция', 'История'];
-  List<Widget> _tabBarContentPages = [
+  final List<Widget> _tabBarContentPages = [
     const CollectionContent(),
     const HistoryContent(),
   ];

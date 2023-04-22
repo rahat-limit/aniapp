@@ -3,6 +3,8 @@ import 'package:anime_app/model/Title.dart';
 import 'package:dio/dio.dart';
 
 class ApiServices {
+  final Dio _dio = Dio();
+
   String startPoint = 'https://api.anilibria.tv/v2';
   String get_random = '/getRandomTitle';
   List<dynamic> genres = [];
@@ -58,10 +60,33 @@ class ApiServices {
     return age;
   }
 
+  Future getLikedFromStoreTitles(String ids) async {
+    try {
+      List<AnimeTitle> titles = [];
+      Response response =
+          await _dio.get('$startPoint/getTitles?id_list=$ids&$filters');
+      // print(response.data.length);
+      for (int i = 0; i < response.data.length; i++) {
+        AnimeTitle title = AnimeTitle.fromJSON(response.data[i]);
+        Response additionalResponse = await _dio.get(
+            'https://kitsu.io/api/edge/anime?fields[anime]=averageRating,ageRating,youtubeVideoId&filter[slug]=${title.code}');
+        if (additionalResponse.data['meta']['count'] != 0) {
+          var title0 =
+              AnimeTitle.additionalInfo(title, additionalResponse.data['data']);
+          titles.add(title0);
+        } else {
+          titles.add(title);
+        }
+      }
+      return titles;
+    } catch (e) {
+      print(e);
+    }
+  }
+
 // kodik.info/serial/19248/803944eb832adacd4d4bec7d4221f941/720p?translations=false
   Future getRandomTitleQuery(int times, List<AnimeTitle> items) async {
     try {
-      Dio _dio = new Dio();
       final anilibria = Anilibria(Uri.parse('$startPoint'));
       List<AnimeTitle> _list = [];
       for (int i = 0; i < times; i++) {
@@ -160,7 +185,6 @@ class ApiServices {
   Future getAllGenresQuery() async {
     try {
       List<dynamic> _list = [];
-      Dio _dio = new Dio();
       Response response = await _dio.get(startPoint + get_genres);
       _list = response.data;
       return _list;
@@ -175,7 +199,6 @@ class ApiServices {
       String searchText, bool flag, List<AnimeTitle> data,
       [int after = 0]) async {
     try {
-      Dio _dio = new Dio();
       List<AnimeTitle> _list = [];
       if (flag) {
         final anilibria = Anilibria(Uri.parse(startPoint));
