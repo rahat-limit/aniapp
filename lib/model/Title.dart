@@ -71,7 +71,7 @@ class AnimeTitle {
   factory AnimeTitle.additionalInfo(
       AnimeTitle title, Map<dynamic, dynamic> json) {
     String age = '';
-    switch (json['ageRating']) {
+    switch (json['attributes']['ageRating'] ?? '') {
       case 'G':
         {
           age = '0+';
@@ -87,29 +87,36 @@ class AnimeTitle {
           age = '17+';
         }
         break;
+      case '':
+        {
+          age = '';
+        }
+        break;
       case 'R18':
         {
           age = '18+';
         }
         break;
     }
+
     return AnimeTitle(
-        id: title.id,
-        code: title.code,
-        names: title.names,
-        description: title.description,
-        announce: title.announce,
-        genres: title.genres,
-        team: title.team,
-        season: title.season,
-        status: title.status,
-        posters: title.posters,
-        type: title.type,
-        player: title.player,
-        rating: json['averageRating'] != null
-            ? double.parse(json['averageRating']).round().toString()
-            : 'no_rate' as String,
-        ageRating: age as String,
-        trailer: json['youtubeVideoId']);
+      id: title.id,
+      code: title.code,
+      names: title.names,
+      description: title.description,
+      announce: title.announce,
+      genres: title.genres,
+      team: title.team,
+      season: title.season,
+      status: title.status,
+      posters: title.posters,
+      type: title.type,
+      player: title.player,
+      rating: json['attributes']['averageRating'] != null
+          ? double.parse(json['attributes']['averageRating']).round().toString()
+          : 'no_rate',
+      ageRating: age,
+      trailer: json['attributes']['youtubeVideoId'],
+    );
   }
 }

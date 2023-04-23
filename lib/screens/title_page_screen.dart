@@ -4,11 +4,9 @@ import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,8 +42,8 @@ class _TitlePageState extends State<TitlePage> {
     String genres = '';
     for (int i = 0; i < title!.team['voice'].length; i++) {
       teams = teams +
-          title!.team['voice'][i] +
-          (i != title!.team['voice'].length - 1 ? ', ' : '');
+          title.team['voice'][i] +
+          (i != title.team['voice'].length - 1 ? ', ' : '');
     }
     if (title.genres != null) {
       for (int i = 0; i < title.genres!.length; i++) {
@@ -64,13 +62,13 @@ class _TitlePageState extends State<TitlePage> {
             CupertinoActionSheetAction(
               isDefaultAction: true,
               onPressed: () async {
-                String _url = title.code;
+                String url0 = title.code;
                 String url = 'https://www.anilibria.tv/release/';
-                if (await canLaunchUrl(Uri.parse(url + _url + '.html'))) {
-                  await launchUrl(Uri.parse(url + _url + '.html'));
+                if (await canLaunchUrl(Uri.parse(url + url0 + '.html'))) {
+                  await launchUrl(Uri.parse(url + url0 + '.html'));
                 } else {
                   throw "Could not launch " +
-                      "https://kodikdb.com/find-player?$_url";
+                      "https://kodikdb.com/find-player?$url0";
                 }
               },
               child: const Text('Смотреть'),
@@ -147,8 +145,8 @@ class _TitlePageState extends State<TitlePage> {
                 borderRadius: BorderRadius.circular(20),
                 child: CachedNetworkImage(
                   imageUrl:
-                      'https://anilibria.tv${title?.posters['medium']['url']}',
-                  placeholder: (context, _url) => Image.asset(
+                      'https://anilibria.tv${title.posters['medium']['url']}',
+                  placeholder: (context, url) => Image.asset(
                     'assets/images/load_frame.png',
                     width: 260,
                     scale: 0.8,
@@ -172,7 +170,7 @@ class _TitlePageState extends State<TitlePage> {
                     children: [
                       Flexible(
                         child: Text(
-                          title!.names['ru'].toString(),
+                          title.names['ru'].toString(),
                           style: const TextStyle(
                               fontSize: 23, fontWeight: FontWeight.w600),
                         ),
@@ -201,8 +199,8 @@ class _TitlePageState extends State<TitlePage> {
                           var likedTitle =
                               Provider.of<AnimeLibrary>(context, listen: false)
                                   .toggleToLikedProvider(title.id, data);
-                          store.dispatch(storeOnDevice(
-                              likedTitle, store.state.lib_state.list.liked));
+                          store.dispatch(storeOnDevice(likedTitle,
+                              store.state.lib_state.list.liked, true));
                         },
                       ),
                     ]),
@@ -219,7 +217,7 @@ class _TitlePageState extends State<TitlePage> {
                 ),
                 Flexible(
                     child: Text(
-                  title!.names['en'],
+                  title.names['en'],
                   style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,

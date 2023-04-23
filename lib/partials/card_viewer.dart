@@ -58,7 +58,6 @@ class _CardViewerState extends State<CardViewer> {
                               .toggleToLikedProvider(item.id, data);
                       store.dispatch(storeOnDevice(
                           likedTitle, store.state.lib_state.list.liked));
-
                       setState(() {
                         _flag = true;
                         _clicked = true;
@@ -117,8 +116,7 @@ class _CardViewerState extends State<CardViewer> {
                                 child: lib.data[lib.currentIndex].rating !=
                                         'no_rate'
                                     ? Text(
-                                        lib.data[lib.currentIndex].rating! +
-                                            '%',
+                                        '${lib.data[lib.currentIndex].rating}%',
                                         style: const TextStyle(
                                           fontFamily: 'RateFont',
                                           fontWeight: FontWeight.w400,

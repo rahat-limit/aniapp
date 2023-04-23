@@ -74,6 +74,7 @@ class CollectionContent extends StatelessWidget {
           var _info = state.lib_state.list;
 
           List<AnimeTitle> data = _info.liked;
+
           bool loading = _info.loading;
           return Container(
             child: data.isEmpty

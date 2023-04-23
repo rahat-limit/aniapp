@@ -75,12 +75,12 @@ class AccountScreen extends StatelessWidget {
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.all(12),
-                                        backgroundColor: Colors.grey[700]),
+                                        backgroundColor: Colors.blueGrey[400]),
+                                    onPressed: _submit,
                                     child: const Text('Подтвердить почту',
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500)),
-                                    onPressed: _submit,
                                   ),
                                 ),
                               ),
@@ -88,31 +88,6 @@ class AccountScreen extends StatelessWidget {
                           ),
                     const SizedBox(
                       height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 40.0),
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(12),
-                                    backgroundColor: Colors.blueGrey[300]),
-                                child: const Text('Очистить кэш',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    )),
-                                onPressed: () async {
-                                  await FileSystem().removeData();
-                                }),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
                     ),
                     Row(
                       children: [

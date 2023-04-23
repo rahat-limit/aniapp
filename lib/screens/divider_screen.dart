@@ -26,7 +26,7 @@ class DividerScreen extends StatefulWidget {
 
 class _DividerScreenState extends State<DividerScreen> {
   int _pageIndex = 0;
-  List<Widget> _pages = [
+  final List<Widget> _pages = [
     HomeScreen(),
     LibraryScreen(),
     SearchScreen(),
@@ -49,15 +49,12 @@ class _DividerScreenState extends State<DividerScreen> {
         store.dispatch(getRandomTitles(data: data));
         store.dispatch(getFilteredTitles(
             genre: 'Боевые исскуства', same: true, data: data));
-        if (store.state.lib_state.list.liked.isEmpty) {
-          await FileSystem().readData().then((value) {
-            if (value.isNotEmpty) {
-              store.dispatch(getStoreOnDeviceTitles(value));
-            }
-          });
-        }
         await FileSystem().readData().then((value) {
           print(value);
+
+          if (value.isNotEmpty) {
+            store.dispatch(getStoreOnDeviceTitles(value));
+          }
         });
 
         store.dispatch(ReloadTitlesAction());

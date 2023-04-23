@@ -55,7 +55,7 @@ AppState stateReducer(AppState state, dynamic action) {
             list: ListAnimeState(
                 filtered: _info.filtered,
                 genres: _info.genres,
-                liked: [..._info.liked, ...action.titles],
+                liked: action.titles,
                 error: false,
                 loading: _info.loading,
                 data: _info.data,
@@ -125,45 +125,8 @@ AppState stateReducer(AppState state, dynamic action) {
                 history: history,
                 search: search,
                 currentIndex: _info.currentIndex,
-                recentLikes: _info.recentLikes)));
-    return newState;
-  } else if (action is LikedTitleAction) {
-    var _info = state.lib_state.list;
-
-    AnimeTitle title = AnimeTitle.init();
-
-    List<AnimeTitle> data = _info.data;
-    List<AnimeTitle> liked = _info.liked;
-    List<AnimeTitle> search = _info.search;
-    List<AnimeTitle> filtered = _info.filtered;
-    List<AnimeTitle> history = _info.history;
-
-    var item = data.firstWhere((element) => element.id == action.id);
-
-    if (item.isLiked) {
-      item.isLiked = false;
-    } else {
-      item.isLiked = true;
-    }
-    if (liked.contains(item)) {
-      liked.remove(item);
-    } else {
-      liked.add(item);
-    }
-
-    AppState newState = AppState(
-        lib_state: AnimeState(
-            list: ListAnimeState(
-                filtered: _info.filtered,
-                genres: _info.genres,
-                liked: _info.liked,
-                error: false,
-                loading: _info.loading,
-                data: _info.data,
-                history: _info.data,
-                search: _info.search,
-                currentIndex: _info.currentIndex,
-                recentLikes: _info.recentLikes + 1)));
+                recentLikes:
+                    !action.col ? _info.recentLikes + 1 : _info.recentLikes)));
     return newState;
   } else if (action is ClearFilterHistoryAction) {
     var _info = state.lib_state.list;

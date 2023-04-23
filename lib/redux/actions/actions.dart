@@ -1,15 +1,10 @@
-import 'dart:io';
-
 import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/services/api_services.dart';
 import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 String startPoint = 'https://api.anilibria.tv/v2';
 
@@ -26,7 +21,8 @@ class GetRandomTitleAction {
 
 class ToggleLikeAction {
   AnimeTitle title;
-  ToggleLikeAction(this.title);
+  bool col;
+  ToggleLikeAction(this.title, this.col);
 }
 
 class NextTitleAction {}
@@ -69,9 +65,11 @@ ThunkAction<AppState> getStoreOnDeviceTitles(String ids) {
   return (Store store) async {
     List<AnimeTitle> titles = [];
     try {
-      await ApiServices()
-          .getLikedFromStoreTitles(ids)
-          .then((value) => titles = value);
+      await ApiServices().getLikedFromStoreTitles(ids).then((value) {
+        if (value != null) {
+          titles = value;
+        }
+      });
     } catch (e) {
       print(e);
     }
@@ -79,16 +77,23 @@ ThunkAction<AppState> getStoreOnDeviceTitles(String ids) {
   };
 }
 
-ThunkAction<AppState> storeOnDevice(AnimeTitle title, List<AnimeTitle> liked) {
+ThunkAction<AppState> storeOnDevice(AnimeTitle title, List<AnimeTitle> liked,
+    [bool col = false]) {
   return (Store store) async {
     var ids = '';
     for (int i = 0; i < liked.length; i++) {
-      String sep = '';
-      if (i + 1 != liked.length) sep = ',';
-      ids = '$ids${liked[i].id}$sep';
+      if (liked[i] != title) {
+        String sep = '';
+        if (i + 1 != liked.length) sep = ',';
+        ids = '$ids${liked[i].id}$sep';
+      }
     }
+
     await FileSystem().writeData(ids);
-    store.dispatch(ToggleLikeAction(title));
+    await FileSystem().readData().then((value) {
+      print(value);
+    });
+    store.dispatch(ToggleLikeAction(title, col));
   };
 }
 
@@ -112,7 +117,7 @@ ThunkAction<AppState> getRandomTitles(
   return (Store store) async {
     try {
       List<AnimeTitle> _list = [];
-      var apiService = new ApiServices();
+      var apiService = ApiServices();
       await apiService
           .getRandomTitleQuery(5, data)
           .then((value) => _list = value);

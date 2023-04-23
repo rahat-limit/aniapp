@@ -65,29 +65,32 @@ class ApiServices {
       List<AnimeTitle> titles = [];
       Response response =
           await _dio.get('$startPoint/getTitles?id_list=$ids&$filters');
-      // print(response.data.length);
       for (int i = 0; i < response.data.length; i++) {
         AnimeTitle title = AnimeTitle.fromJSON(response.data[i]);
         Response additionalResponse = await _dio.get(
             'https://kitsu.io/api/edge/anime?fields[anime]=averageRating,ageRating,youtubeVideoId&filter[slug]=${title.code}');
-        if (additionalResponse.data['meta']['count'] != 0) {
-          var title0 =
-              AnimeTitle.additionalInfo(title, additionalResponse.data['data']);
+        if (additionalResponse.data['meta']['count'] != 0 &&
+            additionalResponse.data['data'] != null) {
+          var title0 = AnimeTitle.additionalInfo(
+              title, additionalResponse.data['data'][0]);
+          title0.isLiked = true;
           titles.add(title0);
         } else {
+          title.isLiked = true;
           titles.add(title);
         }
       }
+      print(titles[0].isLiked);
       return titles;
     } catch (e) {
-      print(e);
+      print('$e!!!');
     }
   }
 
 // kodik.info/serial/19248/803944eb832adacd4d4bec7d4221f941/720p?translations=false
   Future getRandomTitleQuery(int times, List<AnimeTitle> items) async {
     try {
-      final anilibria = Anilibria(Uri.parse('$startPoint'));
+      final anilibria = Anilibria(Uri.parse(startPoint));
       List<AnimeTitle> _list = [];
       for (int i = 0; i < times; i++) {
         AnimeTitle title = AnimeTitle.init();
@@ -97,8 +100,8 @@ class ApiServices {
         AnimeTitle existTitle =
             items.firstWhere((elem) => elem.id == element.id, orElse: () {
           title = AnimeTitle(
-              id: element.id as int,
-              code: element.code as String,
+              id: element.id ?? 0,
+              code: element.code ?? 'no_code',
               names: {
                 "ru": element.names!.ru ?? '',
                 "en": element.names!.en ?? '',
