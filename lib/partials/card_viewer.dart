@@ -52,11 +52,12 @@ class _CardViewerState extends State<CardViewer> {
                 (item) => GestureDetector(
                   onDoubleTap: () async {
                     if (!_flag) {
+                      bool fl = item.isLiked;
                       var likedTitle =
                           Provider.of<AnimeLibrary>(context, listen: false)
                               .toggleToLikedProvider(item.id, data);
                       store.dispatch(storeOnDevice(
-                          likedTitle, store.state.lib_state.list.liked));
+                          likedTitle, store.state.lib_state.list.liked, fl));
                       setState(() {
                         _flag = true;
                         _clicked = true;

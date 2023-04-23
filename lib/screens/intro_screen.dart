@@ -1,10 +1,16 @@
 import 'package:anime_app/screens/divider_screen.dart';
 import 'package:flutter/material.dart';
 
-class IntroScreen extends StatelessWidget {
+class IntroScreen extends StatefulWidget {
   static const pageRoute = '/intro';
 
   const IntroScreen({super.key});
+
+  @override
+  State<IntroScreen> createState() => _IntroScreenState();
+}
+
+class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +56,8 @@ class IntroScreen extends StatelessWidget {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(50),
                     onTap: () {
-                      Navigator.of(context).pushNamed(DividerScreen.pageRoute);
+                      Navigator.pushReplacementNamed(
+                          context, DividerScreen.pageRoute);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(

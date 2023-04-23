@@ -51,7 +51,8 @@ class MyApp extends StatelessWidget {
                 statusBarBrightness: Brightness.light,
               ),
             )),
-        home: const IntroScreen(),
+        home: const DividerScreen(),
+        initialRoute: IntroScreen.pageRoute,
         routes: {
           IntroScreen.pageRoute: (context) => const IntroScreen(),
           DividerScreen.pageRoute: (context) => const DividerScreen(),
