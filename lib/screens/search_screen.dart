@@ -21,17 +21,15 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final GlobalKey _widgetKey = new GlobalKey();
-  TextEditingController textController = new TextEditingController();
-  ScrollController _scrollController = new ScrollController();
-  ScrollController _scrollViewController = new ScrollController();
+  TextEditingController textController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
+  ScrollController _scrollViewController = ScrollController();
   bool searchActive = false;
 
   double _scrollPosition = 0;
-  double _scrollViewPosition = 0;
+  // ignore: non_constant_identifier_names
   int reload_times = 0;
   int currentMax = 50;
-  List<AnimeTitle> _filteredList = [];
   List<AnimeTitle> data = [];
 
   @override
@@ -74,7 +72,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
     if (_scrollPosition == _scrollController.position.maxScrollExtent) {
       reload_times++;
-      var old_state = store.state.lib_state.list.filtered;
 
       store.dispatch(
         getFilteredTitles(
@@ -88,11 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   _scrollViewListener() {
-    var store = StoreProvider.of<AppState>(context);
-
-    setState(() {
-      _scrollViewPosition = _scrollViewController.position.pixels;
-    });
+    setState(() {});
   }
 
   @override
@@ -156,57 +149,54 @@ class _SearchScreenState extends State<SearchScreen> {
                       .activeSearch();
                 }),
           ),
-          Container(
-            child: StoreConnector<AppState, AppState>(
-                converter: (store) => store.state,
-                builder: (context, state) {
-                  bool loading = state.lib_state.list.loading;
-                  List<Widget> _list = state.lib_state.list.search
-                      .map(
-                        (e) => e == null
-                            ? const SizedBox()
-                            : LibItem(
-                                title: e,
-                                loading: state.lib_state.list.loading,
-                                index: state.lib_state.list.currentIndex),
+          StoreConnector<AppState, AppState>(
+              converter: (store) => store.state,
+              builder: (context, state) {
+                bool loading = state.lib_state.list.loading;
+                List<Widget> list = state.lib_state.list.search
+                    .map(
+                      // ignore: unnecessary_null_comparison
+                      (e) => e == null
+                          ? const SizedBox()
+                          : LibItem(
+                              title: e,
+                              loading: state.lib_state.list.loading,
+                              index: state.lib_state.list.currentIndex),
+                    )
+                    .toList();
+                return !Provider.of<AnimeLibrary>(context).searchActive
+                    ? Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: ListView.builder(
+                              controller: _scrollController,
+                              itemCount: state.lib_state.list.filtered.length,
+                              itemBuilder: (context, index) {
+                                return LibItem(
+                                    loading: state.lib_state.list.loading,
+                                    title: state.lib_state.list.filtered[index],
+                                    index: index);
+                              }),
+                        ),
                       )
-                      .toList();
-                  return !Provider.of<AnimeLibrary>(context).searchActive
-                      ? Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: ListView.builder(
-                                controller: _scrollController,
-                                itemCount: state.lib_state.list.filtered.length,
-                                itemBuilder: (context, index) {
-                                  return LibItem(
-                                      loading: state.lib_state.list.loading,
-                                      title:
-                                          state.lib_state.list.filtered[index],
-                                      index: index);
-                                }),
-                          ),
-                        )
-                      : Expanded(
-                          child: loading
-                              ? const SingleChildScrollView(
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15),
-                                    child: LoadingItems(),
-                                  ),
-                                )
-                              : SingleChildScrollView(
-                                  controller: _scrollViewController,
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15),
-                                      child: Column(
-                                        children: _list,
-                                      )),
-                                ));
-                }),
-          )
+                    : Expanded(
+                        child: loading
+                            ? const SingleChildScrollView(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: LoadingItems(),
+                                ),
+                              )
+                            : SingleChildScrollView(
+                                controller: _scrollViewController,
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: Column(
+                                      children: list,
+                                    )),
+                              ));
+              })
         ],
       )),
     );

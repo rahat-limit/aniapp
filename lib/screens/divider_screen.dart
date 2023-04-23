@@ -8,9 +8,7 @@ import 'package:anime_app/screens/search_screen.dart';
 import 'package:anime_app/screens/signin_screen.dart';
 import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -20,6 +18,8 @@ import 'package:provider/provider.dart';
 class DividerScreen extends StatefulWidget {
   static const pageRoute = '/divider';
 
+  const DividerScreen({super.key});
+
   @override
   State<DividerScreen> createState() => _DividerScreenState();
 }
@@ -27,10 +27,10 @@ class DividerScreen extends StatefulWidget {
 class _DividerScreenState extends State<DividerScreen> {
   int _pageIndex = 0;
   final List<Widget> _pages = [
-    HomeScreen(),
-    LibraryScreen(),
-    SearchScreen(),
-    AccountScreen()
+    const HomeScreen(),
+    const LibraryScreen(),
+    const SearchScreen(),
+    const AccountScreen()
   ];
   @override
   void initState() {
@@ -50,8 +50,6 @@ class _DividerScreenState extends State<DividerScreen> {
         store.dispatch(getFilteredTitles(
             genre: 'Боевые исскуства', same: true, data: data));
         await FileSystem().readData().then((value) {
-          print(value);
-
           if (value.isNotEmpty) {
             store.dispatch(getStoreOnDeviceTitles(value));
           }
@@ -77,7 +75,8 @@ class _DividerScreenState extends State<DividerScreen> {
                   activeColor: Colors.white70,
                   gap: 10,
                   padding: const EdgeInsets.all(15),
-                  tabBackgroundColor: const Color(0xFFF9B8686),
+                  // ignore: use_full_hex_values_for_flutter_colors
+                  tabBackgroundColor: const Color(0xfff9b8686),
                   onTabChange: (value) {
                     switch (value) {
                       case 0:
@@ -130,10 +129,10 @@ class _DividerScreenState extends State<DividerScreen> {
                             ? Badge(
                                 label: Text(
                                   state.lib_state.list.recentLikes.toString(),
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                                 backgroundColor:
-                                    Color.fromARGB(255, 232, 98, 89),
+                                    const Color.fromARGB(255, 232, 98, 89),
                                 child: Icon(
                                   CupertinoIcons.heart,
                                   size: 24,
@@ -164,7 +163,7 @@ class _DividerScreenState extends State<DividerScreen> {
           if (snapshot.hasData) {
             return _pages[_pageIndex];
           } else {
-            return SignInScreen();
+            return const SignInScreen();
           }
         },
       ),

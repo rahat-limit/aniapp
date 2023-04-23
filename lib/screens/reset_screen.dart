@@ -1,6 +1,5 @@
 import 'package:anime_app/partials/auth_button.dart';
 import 'package:anime_app/partials/auth_field.dart';
-import 'package:anime_app/partials/lock_icon.dart';
 import 'package:anime_app/partials/reset_lock_icon.dart';
 import 'package:anime_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,8 @@ class ResetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _key = GlobalKey<FormState>();
-    var _emailResetController = TextEditingController();
+    final key = GlobalKey<FormState>();
+    var emailResetController = TextEditingController();
     void showErrorMessage(String error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -21,25 +20,29 @@ class ResetScreen extends StatelessWidget {
         duration: const Duration(milliseconds: 800),
         showCloseIcon: true,
         closeIconColor: Colors.white,
-        backgroundColor: Theme.of(context).errorColor,
+        backgroundColor: Theme.of(context).colorScheme.error,
       ));
     }
 
+    // ignore: no_leading_underscores_for_local_identifiers
     void _submit() async {
-      if (_emailResetController.text.isEmpty)
+      if (emailResetController.text.isEmpty) {
         return showErrorMessage('Fill an empty field.');
+      }
       if (!RegExp(
               r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-          .hasMatch(_emailResetController.text.trim()))
+          .hasMatch(emailResetController.text.trim())) {
         return showErrorMessage('Invalid Email address!');
+      }
       String statusMessage =
-          await AuthService().resetPassword(_emailResetController.text.trim());
+          await AuthService().resetPassword(emailResetController.text.trim());
 
       if (statusMessage.trim() != '') {
         return showErrorMessage(statusMessage);
       }
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
+        content: const Text(
           'Success! Check your mail:)',
         ),
         duration: const Duration(milliseconds: 800),
@@ -56,16 +59,16 @@ class ResetScreen extends StatelessWidget {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ResetLockIcon(),
+            const ResetLockIcon(),
             const SizedBox(
               height: 40,
             ),
             Form(
-              key: _key,
+              key: key,
               child: Column(children: [
                 AuthField(
                     label: 'Email',
-                    controller: _emailResetController,
+                    controller: emailResetController,
                     isPassword: false),
                 const SizedBox(
                   height: 20,
@@ -80,16 +83,16 @@ class ResetScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
-                child: Row(children: [
-                  const Icon(
+                child: Row(children: const [
+                  Icon(
                     Icons.arrow_back_sharp,
                     color: Color(0xFF539DB4),
                     size: 17,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 5,
                   ),
-                  const Text(
+                  Text(
                     'Go Back',
                     style: TextStyle(
                         color: Color(0xFF539DB4),

@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// ignore: must_be_immutable
 class CardButton extends StatelessWidget {
   AnimeTitle title;
-  CardButton(this.title);
+  CardButton(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    // ignore: no_leading_underscores_for_local_identifiers
     void _showActionSheet(BuildContext context) {
       showCupertinoModalPopup<void>(
         context: context,
@@ -19,13 +21,13 @@ class CardButton extends StatelessWidget {
             CupertinoActionSheetAction(
               isDefaultAction: true,
               onPressed: () async {
-                String _url = title.code;
+                String url0 = title.code;
                 String url = 'https://www.anilibria.tv/release/';
-                if (await canLaunchUrl(Uri.parse(url + _url + '.html'))) {
-                  await launchUrl(Uri.parse(url + _url + '.html'));
+                if (await canLaunchUrl(Uri.parse('$url$url0.html'))) {
+                  await launchUrl(Uri.parse('$url$url0.html'));
                 } else {
-                  throw "Could not launch " +
-                      "https://kodikdb.com/find-player?$_url";
+                  throw "Could not launch "
+                      "https://kodikdb.com/find-player?$url0";
                 }
               },
               child: const Text('Смотреть'),

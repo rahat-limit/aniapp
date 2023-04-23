@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 class AnimeTitle {
   final int id;
   final String code;
@@ -55,9 +56,9 @@ class AnimeTitle {
         id: json['id'] as int,
         code: json['code'] as String,
         names: json['names'] as Map<String, dynamic>,
-        description: json['description'] ?? '' as String,
+        description: json['description'] ?? '',
         announce: json['announce'] as dynamic,
-        genres: json['genres'] ?? [] as List<dynamic>,
+        genres: json['genres'] ?? [],
         team: json['team'] as Map<String, dynamic>,
         season: json['season'] as Map<String, dynamic>,
         status: json['status'] as Map<String, dynamic>,

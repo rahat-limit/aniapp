@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class SignUpScreen extends StatefulWidget {
   static const pageRoute = '/signup';
 
+  const SignUpScreen({super.key});
+
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
@@ -19,7 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              LockIcon(),
+              const LockIcon(),
               const SizedBox(
                 height: 40,
               ),

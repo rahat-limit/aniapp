@@ -6,9 +6,11 @@ class ApiServices {
   final Dio _dio = Dio();
 
   String startPoint = 'https://api.anilibria.tv/v2';
+  // ignore: non_constant_identifier_names
   String get_random = '/getRandomTitle';
   List<dynamic> genres = [];
   String media = 'https://kodikdb.com/find-player?';
+  // ignore: non_constant_identifier_names
   List<String> list_filters = [
     'id',
     'code',
@@ -25,7 +27,9 @@ class ApiServices {
   ];
   String filters =
       'filter=id,code,names,description,announce,genres,team,season,status,posters,type,player';
+  // ignore: non_constant_identifier_names
   String get_search = '/v2/searchTitles?search=';
+  // ignore: non_constant_identifier_names
   String get_genres = '/getGenres';
 
   String getAgeRating(String json) {
@@ -80,10 +84,9 @@ class ApiServices {
           titles.add(title);
         }
       }
-      print(titles[0].isLiked);
       return titles;
     } catch (e) {
-      print('$e!!!');
+      rethrow;
     }
   }
 
@@ -91,7 +94,7 @@ class ApiServices {
   Future getRandomTitleQuery(int times, List<AnimeTitle> items) async {
     try {
       final anilibria = Anilibria(Uri.parse(startPoint));
-      List<AnimeTitle> _list = [];
+      List<AnimeTitle> list = [];
       for (int i = 0; i < times; i++) {
         AnimeTitle title = AnimeTitle.init();
         final element = await anilibria.getRandomTitle(filter: list_filters);
@@ -175,25 +178,25 @@ class ApiServices {
           return title;
         });
 
-        _list.add(existTitle);
+        list.add(existTitle);
       }
-      return _list;
+      return list;
     } on DioError catch (e) {
       if (e.response != null) {
-        print(e.message);
+        rethrow;
       }
     }
   }
 
   Future getAllGenresQuery() async {
     try {
-      List<dynamic> _list = [];
+      List<dynamic> list = [];
       Response response = await _dio.get(startPoint + get_genres);
-      _list = response.data;
-      return _list;
+      list = response.data;
+      return list;
     } on DioError catch (e) {
       if (e.response != null) {
-        print(e.message);
+        rethrow;
       }
     }
   }

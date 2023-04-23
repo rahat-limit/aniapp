@@ -1,5 +1,4 @@
 import 'package:anime_app/model/Title.dart';
-import 'package:anime_app/partials/info_small_button.dart';
 import 'package:anime_app/screens/title_page_screen.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:flutter/material.dart';
@@ -133,6 +132,7 @@ class CardInfo extends StatelessWidget {
                                     Flexible(
                                       child: Text(
                                         !loading
+                                            // ignore: prefer_interpolation_to_compose_strings
                                             ? '- ' +
                                                 data[currentIndex]
                                                     .type['full_string']

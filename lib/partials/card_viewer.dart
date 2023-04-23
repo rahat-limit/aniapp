@@ -1,7 +1,6 @@
 import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
-import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:anime_app/state/lib_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -36,19 +35,19 @@ class _CardViewerState extends State<CardViewer> {
           ];
           ListAnimeState lib = state.lib_state.list;
           bool loading = state.lib_state.list.loading;
-          List<Widget> _loadList = [
+          List<Widget> loadList = [
             Center(
               child: Container(
                   margin: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 0, top: 10),
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   decoration: BoxDecoration(
-                    color: Color(0xFFDDC7C7),
+                    color: const Color(0xFFDDC7C7),
                     borderRadius: BorderRadius.circular(30),
                   )),
             ),
           ];
-          List<Widget> _list = lib.data
+          List<Widget> list = lib.data
               .map(
                 (item) => GestureDetector(
                   onDoubleTap: () async {
@@ -65,15 +64,14 @@ class _CardViewerState extends State<CardViewer> {
                     }
                   },
                   child: Center(
-                    child: Container(
-                        child: Stack(
+                    child: Stack(
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(30),
                           child: CachedNetworkImage(
                             imageUrl:
                                 'https://anilibria.tv${item.posters['original'] == null ? '' : item.posters['original']['url']}',
-                            placeholder: (context, _url) => Image.asset(
+                            placeholder: (context, url) => Image.asset(
                               'assets/images/load_frame.png',
                               width: MediaQuery.of(context).size.width - 40,
                               scale: 0.8,
@@ -109,7 +107,7 @@ class _CardViewerState extends State<CardViewer> {
                             decoration: BoxDecoration(
                               color:
                                   lib.data[lib.currentIndex].rating != 'no_rate'
-                                      ? Color(0xFF89CF70)
+                                      ? const Color(0xFF89CF70)
                                       : Colors.transparent,
                             ),
                             child: Center(
@@ -129,7 +127,7 @@ class _CardViewerState extends State<CardViewer> {
                           ),
                         )
                       ],
-                    )),
+                    ),
                   ),
                 ),
               )
@@ -138,7 +136,7 @@ class _CardViewerState extends State<CardViewer> {
           return Expanded(
             flex: 17,
             child: loading
-                ? _loadList[0]
+                ? loadList[0]
                 : CardSwiper(
                     padding: const EdgeInsets.only(
                         left: 20, right: 20, bottom: 20, top: 10),
@@ -167,7 +165,7 @@ class _CardViewerState extends State<CardViewer> {
                       return true;
                     },
                     cardBuilder: (context, index) {
-                      return _list[index];
+                      return list[index];
                     },
                   ),
           );

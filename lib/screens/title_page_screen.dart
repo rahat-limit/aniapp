@@ -4,7 +4,6 @@ import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -37,7 +36,6 @@ class _TitlePageState extends State<TitlePage> {
       isLiked = data.firstWhere((element) => element == title).isLiked;
     }
 
-    var user = FirebaseAuth.instance.currentUser;
     String teams = '';
     String genres = '';
     for (int i = 0; i < title!.team['voice'].length; i++) {
@@ -52,6 +50,7 @@ class _TitlePageState extends State<TitlePage> {
             (i != title.genres!.length - 1 ? ', ' : '');
       }
     }
+    // ignore: no_leading_underscores_for_local_identifiers
     void _showActionSheet(BuildContext context) {
       showCupertinoModalPopup<void>(
         context: context,
@@ -64,10 +63,10 @@ class _TitlePageState extends State<TitlePage> {
               onPressed: () async {
                 String url0 = title.code;
                 String url = 'https://www.anilibria.tv/release/';
-                if (await canLaunchUrl(Uri.parse(url + url0 + '.html'))) {
-                  await launchUrl(Uri.parse(url + url0 + '.html'));
+                if (await canLaunchUrl(Uri.parse('$url$url0.html'))) {
+                  await launchUrl(Uri.parse('$url$url0.html'));
                 } else {
-                  throw "Could not launch " +
+                  throw "Could not launch "
                       "https://kodikdb.com/find-player?$url0";
                 }
               },
@@ -85,6 +84,7 @@ class _TitlePageState extends State<TitlePage> {
       );
     }
 
+    // ignore: no_leading_underscores_for_local_identifiers
     void _additshowActionSheet(BuildContext context) {
       showCupertinoModalPopup<void>(
         context: context,
@@ -179,11 +179,6 @@ class _TitlePageState extends State<TitlePage> {
                         child: StoreConnector<AppState, AppState>(
                             converter: (store) => store.state,
                             builder: (context, state) {
-                              var data = [
-                                ...state.lib_state.list.data,
-                                ...state.lib_state.list.filtered,
-                                ...state.lib_state.list.search
-                              ];
                               return Icon(
                                 isLiked
                                     ? CupertinoIcons.heart_fill
@@ -299,7 +294,7 @@ class _TitlePageState extends State<TitlePage> {
                 const SizedBox(
                   width: 5,
                 ),
-                Container(
+                SizedBox(
                   width: 45,
                   height: 45,
                   child: InkWell(
@@ -333,7 +328,7 @@ class _TitlePageState extends State<TitlePage> {
                       TitleOption(
                           url: 'assets/images/flag.png',
                           text:
-                              '${title.season["string"] == null ? '' : title.season["string"].toString() + ','} ${title.season["year"] == null ? '' : title.season["year"]} г.'),
+                              '${title.season["string"] == null ? '' : '${title.season["string"]},'} ${title.season["year"] ?? ''} г.'),
                       TitleOption(
                           url: 'assets/images/video.png',
                           text: title.type['full_string']),
@@ -398,7 +393,7 @@ class _TitlePageState extends State<TitlePage> {
                           color: Colors.grey[400],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       )
                     ],
@@ -410,11 +405,11 @@ class _TitlePageState extends State<TitlePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Описание:',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
@@ -424,7 +419,7 @@ class _TitlePageState extends State<TitlePage> {
                         fontWeight: FontWeight.w500,
                         color: Colors.grey[700]),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                 ],

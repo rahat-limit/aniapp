@@ -3,11 +3,13 @@ import 'package:anime_app/screens/title_page_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class LibItem extends StatelessWidget {
   final AnimeTitle title;
   bool loading;
   int index;
   LibItem({
+    super.key,
     required this.title,
     required this.loading,
     required this.index,
@@ -39,7 +41,7 @@ class LibItem extends StatelessWidget {
                       : CachedNetworkImage(
                           imageUrl:
                               'https://anilibria.tv${title.posters['medium']['url']}',
-                          placeholder: (context, _url) => Image.asset(
+                          placeholder: (context, url) => Image.asset(
                             'assets/images/load_frame.png',
                             scale: 1,
                             height: 150,
@@ -59,10 +61,10 @@ class LibItem extends StatelessWidget {
                       Text(
                         loading ? '' : title.names['ru'],
                         maxLines: 3,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 19, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
@@ -77,7 +79,7 @@ class LibItem extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
@@ -92,12 +94,11 @@ class LibItem extends StatelessWidget {
                   ),
                 ))
               ]),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 0),
                 child: Divider(
                   thickness: 1.5,
                 ),

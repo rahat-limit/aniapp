@@ -14,7 +14,7 @@ class AuthLine extends StatelessWidget {
             height: 1,
             color: Colors.black,
           )),
-          SizedBox(
+          const SizedBox(
             width: 70,
             child: Center(
                 child: Text(

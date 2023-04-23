@@ -11,7 +11,6 @@ class AnimeLibrary extends ChangeNotifier {
   bool _searchActive = false;
   bool get searchActive => _searchActive;
   bool get isAuth => _isAuth;
-  List<AnimeTitle> get _liked => liked;
 
   AnimeTitle toggleToLikedProvider(int id, List<AnimeTitle> titles) {
     AnimeTitle title = titles.firstWhere((element) => element.id == id);

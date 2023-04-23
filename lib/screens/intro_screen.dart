@@ -1,9 +1,10 @@
 import 'package:anime_app/screens/divider_screen.dart';
-import 'package:anime_app/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 
 class IntroScreen extends StatelessWidget {
   static const pageRoute = '/intro';
+
+  const IntroScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

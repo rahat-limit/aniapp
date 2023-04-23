@@ -2,7 +2,6 @@ import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
 import 'package:anime_app/state/app_state.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -12,7 +11,7 @@ class InfoButton extends StatefulWidget {
   final double width;
   final double height;
 
-  const InfoButton({this.width = 24, this.height = 24});
+  const InfoButton({super.key, this.width = 24, this.height = 24});
 
   @override
   State<InfoButton> createState() => _InfoButtonState();
@@ -28,9 +27,10 @@ class _InfoButtonState extends State<InfoButton> {
       ...store.state.lib_state.list.liked,
       ...store.state.lib_state.list.search,
     ];
-    int _genre = 0;
-    const double _kItemExtent = 32.0;
-    List<dynamic> _genres = store.state.lib_state.list.genres as List<dynamic>;
+    int genre = 0;
+    const double kItemExtent = 32.0;
+    List<dynamic> genres = store.state.lib_state.list.genres;
+    // ignore: no_leading_underscores_for_local_identifiers
     void _showDialog(Widget child) {
       showCupertinoModalPopup<void>(
           context: context,
@@ -48,6 +48,7 @@ class _InfoButtonState extends State<InfoButton> {
               ));
     }
 
+    // ignore: no_leading_underscores_for_local_identifiers
     void _showActionSheet(BuildContext context) {
       showCupertinoModalPopup<void>(
         context: context,
@@ -60,18 +61,18 @@ class _InfoButtonState extends State<InfoButton> {
                 magnification: 1.22,
                 squeeze: 1.2,
                 useMagnifier: true,
-                itemExtent: _kItemExtent,
+                itemExtent: kItemExtent,
                 onSelectedItemChanged: (int selectedItem) {
                   setState(() {
                     // if (mounted) {
-                    _genre = selectedItem;
+                    genre = selectedItem;
                     // }
                   });
                 },
-                children: List<Widget>.generate(_genres.length, (int index) {
+                children: List<Widget>.generate(genres.length, (int index) {
                   return Center(
                     child: Text(
-                      _genres[index],
+                      genres[index],
                     ),
                   );
                 }),
@@ -82,7 +83,7 @@ class _InfoButtonState extends State<InfoButton> {
               isDefaultAction: true,
               onPressed: () {
                 store.dispatch(getFilteredTitles(
-                    genre: _genres[_genre].toString(), same: true, data: data));
+                    genre: genres[genre].toString(), same: true, data: data));
                 Provider.of<AnimeLibrary>(context, listen: false)
                     .disActiveSearch();
                 Provider.of<AnimeLibrary>(context, listen: false)
@@ -115,7 +116,7 @@ class _InfoButtonState extends State<InfoButton> {
           margin: const EdgeInsets.only(top: 5),
           width: widget.width,
           height: widget.height,
-          child: Icon(Icons.filter_list),
+          child: const Icon(Icons.filter_list),
         ));
   }
 }

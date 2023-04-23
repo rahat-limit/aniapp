@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class SignInScreen extends StatefulWidget {
   static const pageRoute = '/signin';
 
+  const SignInScreen({super.key});
+
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -12,18 +14,18 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              LockIcon(),
-              SizedBox(
+              const LockIcon(),
+              const SizedBox(
                 height: 40,
               ),
-              AuthForm(formKey: _formKey, isSignIn: true),
+              AuthForm(formKey: formKey, isSignIn: true),
             ]),
           ),
         ),

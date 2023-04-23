@@ -1,6 +1,5 @@
 import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/services/auth_services.dart';
-import 'package:anime_app/services/file_system.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +10,12 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: no_leading_underscores_for_local_identifiers
     void _submit() async {
       try {
         String response = await AuthService().verifyEmail();
         if (response.isNotEmpty) {
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: const Text(
               'Something went wrong',
@@ -22,11 +23,12 @@ class AccountScreen extends StatelessWidget {
             duration: const Duration(milliseconds: 800),
             showCloseIcon: true,
             closeIconColor: Colors.white,
-            backgroundColor: Theme.of(context).errorColor,
+            // ignore: use_build_context_synchronously
+            backgroundColor: Theme.of(context).colorScheme.error,
           ));
         }
       } catch (e) {
-        print(e);
+        rethrow;
       }
     }
 

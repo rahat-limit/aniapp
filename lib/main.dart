@@ -30,9 +30,12 @@ Future<void> main() async {
       child: MyApp()));
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   var store = Store(stateReducer,
       initialState: AppState.initial(), middleware: [thunkMiddleware]);
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +51,12 @@ class MyApp extends StatelessWidget {
                 statusBarBrightness: Brightness.light,
               ),
             )),
-        home: IntroScreen(),
+        home: const IntroScreen(),
         routes: {
-          IntroScreen.pageRoute: (context) => IntroScreen(),
-          DividerScreen.pageRoute: (context) => DividerScreen(),
-          SignInScreen.pageRoute: (context) => SignInScreen(),
-          SignUpScreen.pageRoute: (context) => SignUpScreen(),
+          IntroScreen.pageRoute: (context) => const IntroScreen(),
+          DividerScreen.pageRoute: (context) => const DividerScreen(),
+          SignInScreen.pageRoute: (context) => const SignInScreen(),
+          SignUpScreen.pageRoute: (context) => const SignUpScreen(),
           ResetScreen.pageRoute: (context) => const ResetScreen(),
           LibraryScreen.pageRoute: (context) => const LibraryScreen(),
           AccountScreen.pageRoute: (context) => const AccountScreen(),

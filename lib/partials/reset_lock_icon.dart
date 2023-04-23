@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ResetLockIcon extends StatelessWidget {
+  const ResetLockIcon({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(

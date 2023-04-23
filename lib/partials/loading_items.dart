@@ -6,7 +6,7 @@ class LoadingItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _loadList = List.generate(5, (index) {
+    List<Widget> loadList = List.generate(5, (index) {
       return Container(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -29,19 +29,19 @@ class LoadingItems extends StatelessWidget {
                     LoadDivider(
                         width: MediaQuery.of(context).size.width / 2,
                         height: 10),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     LoadDivider(
                         width: MediaQuery.of(context).size.width / 2.4,
                         height: 10),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     LoadDivider(
                         width: MediaQuery.of(context).size.width / 2.8,
                         height: 8),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     LoadDivider(
                         width: MediaQuery.of(context).size.width / 2,
                         height: 80),
@@ -49,11 +49,11 @@ class LoadingItems extends StatelessWidget {
                 ),
               ))
             ]),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.0),
               child: Divider(
                 thickness: 1.5,
               ),
@@ -62,6 +62,6 @@ class LoadingItems extends StatelessWidget {
         ),
       );
     });
-    return Column(children: _loadList);
+    return Column(children: loadList);
   }
 }

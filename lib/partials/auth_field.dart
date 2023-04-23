@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AuthField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   bool isPassword = false;
   AuthField(
-      {required this.label,
+      {super.key,
+      required this.label,
       required this.controller,
       required this.isPassword});
 
@@ -19,16 +21,17 @@ class AuthField extends StatelessWidget {
         controller: controller,
         obscureText: isPassword,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 14),
-          hintStyle: TextStyle(fontSize: 19, fontWeight: FontWeight.w400),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20, horizontal: 14),
+          hintStyle: const TextStyle(fontSize: 19, fontWeight: FontWeight.w400),
           border: InputBorder.none,
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.white)),
+              borderSide: const BorderSide(color: Colors.white)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade400)),
           errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
+            borderSide: const BorderSide(color: Colors.red),
             borderRadius: BorderRadius.circular(10),
           ),
           filled: true,

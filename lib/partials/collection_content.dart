@@ -10,7 +10,7 @@ class CollectionContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _loadList = List.generate(5, (index) {
+    List<Widget> loadList = List.generate(5, (index) {
       return Container(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -67,69 +67,67 @@ class CollectionContent extends StatelessWidget {
       );
     });
 
-    return Container(
-      child: StoreConnector<AppState, AppState>(
-        converter: (store) => store.state,
-        builder: (context, state) {
-          var _info = state.lib_state.list;
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      builder: (context, state) {
+        var info = state.lib_state.list;
 
-          List<AnimeTitle> data = _info.liked;
+        List<AnimeTitle> data = info.liked;
 
-          bool loading = _info.loading;
-          return Container(
-            child: data.isEmpty
-                ? SingleChildScrollView(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 100),
-                          child: Image.asset(
-                            'assets/images/sad.png',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.fill,
-                            color: Colors.grey[700],
-                          ),
+        bool loading = info.loading;
+        return Container(
+          child: data.isEmpty
+              ? SingleChildScrollView(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 100),
+                        child: Image.asset(
+                          'assets/images/sad.png',
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.fill,
+                          color: Colors.grey[700],
                         ),
-                        const SizedBox(
-                          height: 18,
-                        ),
-                        const Text(
-                          'Ой, а тут пусто!',
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      const Text(
+                        'Ой, а тут пусто!',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          'Добавляй в колекцию дважды нажав на то самое аниме.',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey[700]),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text(
-                            'Добавляй в колекцию дважды нажав на то самое аниме.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey[700]),
-                          ),
-                        )
-                      ]))
-                : ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return loading
-                          ? _loadList[0]
-                          : LibItem(
-                              title: data[index],
-                              loading: _info.loading,
-                              index: _info.currentIndex,
-                            );
-                    },
-                  ),
-          );
-        },
-      ),
+                      )
+                    ]))
+              : ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return loading
+                        ? loadList[0]
+                        : LibItem(
+                            title: data[index],
+                            loading: info.loading,
+                            index: info.currentIndex,
+                          );
+                  },
+                ),
+        );
+      },
     );
   }
 }

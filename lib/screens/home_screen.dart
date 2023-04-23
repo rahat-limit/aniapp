@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,9 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, state) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CardViewer(),
-          CardInfo(),
-          SizedBox(
+          const CardViewer(),
+          const CardInfo(),
+          const SizedBox(
             height: 10,
           ),
           state.lib_state.list.loading

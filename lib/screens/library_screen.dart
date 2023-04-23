@@ -1,15 +1,11 @@
 import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/partials/collection_content.dart';
 import 'package:anime_app/partials/history_content.dart';
-import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
-import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -23,7 +19,7 @@ class LibraryScreen extends StatefulWidget {
 class _LibraryScreenState extends State<LibraryScreen> {
   final controller = PageController(viewportFraction: 1, keepPage: true);
   int _activeIndex = 0;
-  List<String> _tabBarTitles = ['Коллекция', 'История'];
+  final List<String> _tabBarTitles = ['Коллекция', 'История'];
   final List<Widget> _tabBarContentPages = [
     const CollectionContent(),
     const HistoryContent(),
@@ -77,7 +73,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     effect: const ExpandingDotsEffect(
                         dotWidth: 21,
                         dotHeight: 21,
-                        activeDotColor: Color(0xFFF9B8686)),
+                        // ignore: use_full_hex_values_for_flutter_colors
+                        activeDotColor: Color(0xfff9b8686)),
                   ),
                 ),
               ],

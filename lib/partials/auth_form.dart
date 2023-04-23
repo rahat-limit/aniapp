@@ -7,15 +7,15 @@ import 'package:anime_app/screens/reset_screen.dart';
 import 'package:anime_app/screens/signin_screen.dart';
 import 'package:anime_app/screens/signup_screen.dart';
 import 'package:anime_app/services/auth_services.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class AuthForm extends StatefulWidget {
   var formKey = GlobalKey<FormState>();
   bool isSignIn;
-  AuthForm({required this.formKey, required this.isSignIn});
+  AuthForm({super.key, required this.formKey, required this.isSignIn});
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -28,6 +28,7 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     _emailController.text = '';
     _passwordConfirmController.text = '';
@@ -37,8 +38,6 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    RegExp regexPassword =
-        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     void showErrorMessage(String error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -47,7 +46,7 @@ class _AuthFormState extends State<AuthForm> {
         duration: const Duration(milliseconds: 800),
         showCloseIcon: true,
         closeIconColor: Colors.white,
-        backgroundColor: Theme.of(context).errorColor,
+        backgroundColor: Theme.of(context).colorScheme.error,
       ));
     }
 
@@ -59,7 +58,7 @@ class _AuthFormState extends State<AuthForm> {
         duration: const Duration(milliseconds: 800),
         showCloseIcon: true,
         closeIconColor: Colors.amber,
-        backgroundColor: Theme.of(context).errorColor,
+        backgroundColor: Theme.of(context).colorScheme.error,
       ));
     }
 
@@ -89,8 +88,6 @@ class _AuthFormState extends State<AuthForm> {
             !widget.isSignIn) {
           return showErrorMessage('Passwords are not the same.');
         }
-        final CollectionReference postsRef =
-            FirebaseFirestore.instance.collection('liked_collection');
         !widget.isSignIn
             ? await FirebaseAuth.instance.createUserWithEmailAndPassword(
                 email: _emailController.text.trim(),
@@ -99,8 +96,10 @@ class _AuthFormState extends State<AuthForm> {
             : await FirebaseAuth.instance.signInWithEmailAndPassword(
                 email: _emailController.text.trim(),
                 password: _passwordController.text.trim());
+        // ignore: use_build_context_synchronously
         Provider.of<AnimeLibrary>(context, listen: false).signedIn();
 
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushNamed(DividerScreen.pageRoute);
       } on FirebaseAuthException catch (e) {
         if (!widget.isSignIn) {
@@ -182,6 +181,7 @@ class _AuthFormState extends State<AuthForm> {
             child: Image.asset('assets/images/google.png'),
             onTap: () async {
               await AuthService().signInWithGoogle(context);
+              // ignore: use_build_context_synchronously
               Navigator.pushReplacementNamed(context, DividerScreen.pageRoute);
             }),
         const SizedBox(

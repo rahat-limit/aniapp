@@ -71,7 +71,7 @@ ThunkAction<AppState> getStoreOnDeviceTitles(String ids) {
         }
       });
     } catch (e) {
-      print(e);
+      rethrow;
     }
     store.dispatch(GetStoredTitlesAction(titles));
   };
@@ -90,9 +90,6 @@ ThunkAction<AppState> storeOnDevice(AnimeTitle title, List<AnimeTitle> liked,
     }
 
     await FileSystem().writeData(ids);
-    await FileSystem().readData().then((value) {
-      print(value);
-    });
     store.dispatch(ToggleLikeAction(title, col));
   };
 }
@@ -103,12 +100,12 @@ ThunkAction<AppState> getFilteredTitles(
     required bool same,
     required List<AnimeTitle> data}) {
   return (Store store) async {
-    List<AnimeTitle> _list = [];
-    var apiService = new ApiServices();
+    List<AnimeTitle> list = [];
+    var apiService = ApiServices();
     await apiService
         .getSearchTitlesQuery(genre, true, data, after)
-        .then((item) => _list = item);
-    store.dispatch(FilteredTitlesAction(_list, same));
+        .then((item) => list = item);
+    store.dispatch(FilteredTitlesAction(list, same));
   };
 }
 
@@ -116,15 +113,15 @@ ThunkAction<AppState> getRandomTitles(
     {int times = 5, required List<AnimeTitle> data}) {
   return (Store store) async {
     try {
-      List<AnimeTitle> _list = [];
+      List<AnimeTitle> list = [];
       var apiService = ApiServices();
       await apiService
           .getRandomTitleQuery(5, data)
-          .then((value) => _list = value);
-      store.dispatch(GetRandomTitleAction(list: _list));
+          .then((value) => list = value);
+      store.dispatch(GetRandomTitleAction(list: list));
     } on DioError catch (e) {
       if (e.response != null) {
-        print(e.message);
+        rethrow;
       }
     }
   };
@@ -146,7 +143,7 @@ ThunkAction<AppState> getSearchTitles(
     String searchText, List<AnimeTitle> data) {
   return (Store store) async {
     List<AnimeTitle> newList = [];
-    var apiService = new ApiServices();
+    var apiService = ApiServices();
     await apiService
         .getSearchTitlesQuery(searchText, false, data)
         .then((item) => newList = item);
@@ -161,9 +158,9 @@ class GetAllGenres {
 
 ThunkAction<AppState> getGenres() {
   return (Store store) async {
-    List<dynamic> _genres = [];
-    var apiService = new ApiServices();
-    await apiService.getAllGenresQuery().then((value) => _genres = value);
-    store.dispatch(GetAllGenres(_genres));
+    List<dynamic> genres = [];
+    var apiService = ApiServices();
+    await apiService.getAllGenresQuery().then((value) => genres = value);
+    store.dispatch(GetAllGenres(genres));
   };
 }
