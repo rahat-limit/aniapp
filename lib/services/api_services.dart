@@ -202,7 +202,7 @@ class ApiServices {
       String searchText, bool flag, List<AnimeTitle> data,
       [int after = 0]) async {
     try {
-      List<AnimeTitle> _list = [];
+      List<AnimeTitle> list = [];
       if (flag) {
         final anilibria = Anilibria(Uri.parse(startPoint));
         final response = await anilibria.searchTitles(
@@ -292,10 +292,9 @@ class ApiServices {
                 trailer: '');
             return title;
           });
-          _list.add(item);
+          list.add(item);
         }
       } else {
-        AnimeTitle title = AnimeTitle.init();
         final anilibria = Anilibria(Uri.parse(startPoint));
         final response = await anilibria.searchTitles(
             search: searchText, limit: 25, filter: list_filters);
@@ -304,8 +303,7 @@ class ApiServices {
           Response additionalResponse = await _dio.get(
               'https://kitsu.io/api/edge/anime?fields[anime]=averageRating,ageRating,youtubeVideoId&filter[slug]=${element.code}');
 
-          _list
-              .add(data.firstWhere((elem) => element.id == elem.id, orElse: () {
+          list.add(data.firstWhere((elem) => element.id == elem.id, orElse: () {
             return AnimeTitle(
                 id: element.id as int,
                 code: element.code as String,
@@ -380,11 +378,9 @@ class ApiServices {
           }));
         }
       }
-      return _list;
-    } on DioError catch (e) {
-      if (e.response != null) {
-        print(e.message);
-      }
+      return list;
+    } on DioError {
+      rethrow;
     }
   }
 }
