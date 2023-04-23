@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/partials/info_small_button.dart';
 import 'package:anime_app/partials/lib_item.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:provider/provider.dart';
+import 'package:redux/redux.dart';
 
 class SearchScreen extends StatefulWidget {
   static const pageRoute = '/search';
@@ -24,12 +24,10 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController textController = TextEditingController();
   ScrollController _scrollController = ScrollController();
   ScrollController _scrollViewController = ScrollController();
+  late Store<AppState> store;
   bool searchActive = false;
 
-  double _scrollPosition = 0;
   // ignore: non_constant_identifier_names
-  int reload_times = 0;
-  int currentMax = 50;
   List<AnimeTitle> data = [];
 
   @override
@@ -39,18 +37,15 @@ class _SearchScreenState extends State<SearchScreen> {
       if (user != null && mounted) {
         searchActive =
             Provider.of<AnimeLibrary>(context, listen: false).searchActive;
-        var store = StoreProvider.of<AppState>(context);
+        store = StoreProvider.of<AppState>(context);
         data = [
           ...store.state.lib_state.list.data,
           ...store.state.lib_state.list.filtered,
           ...store.state.lib_state.list.liked,
           ...store.state.lib_state.list.search,
         ];
-        reload_times = 0;
         _scrollController = ScrollController();
         _scrollViewController = ScrollController();
-        _scrollController.addListener(_scrollListener);
-        _scrollViewController.addListener(_scrollViewListener);
         textController = TextEditingController();
         store.dispatch(ClearSearchHistory());
       }
@@ -60,48 +55,13 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void dispose() {
     textController.dispose();
+    _scrollController.dispose();
+    _scrollViewController.dispose();
     super.dispose();
-  }
-
-  _scrollListener() {
-    setState(() {
-      _scrollPosition = _scrollController.position.pixels;
-    });
-
-    var store = StoreProvider.of<AppState>(context);
-
-    if (_scrollPosition == _scrollController.position.maxScrollExtent) {
-      reload_times++;
-
-      store.dispatch(
-        getFilteredTitles(
-            genre: store.state.lib_state.list.genres[0].toString(),
-            after: reload_times * currentMax,
-            data: data,
-            same: false),
-      );
-      setState(() {});
-    }
-  }
-
-  _scrollViewListener() {
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    if (Provider.of<AnimeLibrary>(context, listen: true).refreshList) {
-      if (_scrollController.positions.isNotEmpty) {
-        setState(() {
-          _scrollController.jumpTo(_scrollController.position.minScrollExtent);
-        });
-        Timer(const Duration(seconds: 2), () {
-          Provider.of<AnimeLibrary>(context, listen: false)
-              .disactiveRefreshList();
-        });
-      }
-    }
-
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -135,8 +95,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 placeholder: 'Search',
                 controller: textController,
                 onSubmitted: (value) {
-                  StoreProvider.of<AppState>(context)
-                      .dispatch(getSearchTitles(value, data));
+                  store.dispatch(getSearchTitles(value, data));
 
                   textController.clear();
                   if (_scrollViewController.positions.isNotEmpty) {
@@ -153,18 +112,10 @@ class _SearchScreenState extends State<SearchScreen> {
               converter: (store) => store.state,
               builder: (context, state) {
                 bool loading = state.lib_state.list.loading;
-                List<Widget> list = state.lib_state.list.search
-                    .map(
-                      // ignore: unnecessary_null_comparison
-                      (e) => e == null
-                          ? const SizedBox()
-                          : LibItem(
-                              title: e,
-                              loading: state.lib_state.list.loading,
-                              index: state.lib_state.list.currentIndex),
-                    )
-                    .toList();
-                return !Provider.of<AnimeLibrary>(context).searchActive
+                var data = state.lib_state.list.search;
+                return !Provider.of<AnimeLibrary>(context, listen: true)
+                        .searchActive
+                    // GENRES
                     ? Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -173,29 +124,27 @@ class _SearchScreenState extends State<SearchScreen> {
                               itemCount: state.lib_state.list.filtered.length,
                               itemBuilder: (context, index) {
                                 return LibItem(
-                                    loading: state.lib_state.list.loading,
-                                    title: state.lib_state.list.filtered[index],
-                                    index: index);
+                                  loading: state.lib_state.list.loading,
+                                  title: state.lib_state.list.filtered[index],
+                                );
                               }),
                         ),
                       )
+                    // SEARCH
                     : Expanded(
-                        child: loading
-                            ? const SingleChildScrollView(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: LoadingItems(),
-                                ),
-                              )
-                            : SingleChildScrollView(
-                                controller: _scrollViewController,
-                                child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    child: Column(
-                                      children: list,
-                                    )),
-                              ));
+                        child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: ListView.builder(
+                              controller: _scrollViewController,
+                              shrinkWrap: true,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return LibItem(
+                                    title: data[index],
+                                    loading: state.lib_state.list.loading);
+                              },
+                            )),
+                      );
               })
         ],
       )),

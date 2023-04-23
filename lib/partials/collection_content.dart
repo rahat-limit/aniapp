@@ -119,11 +119,7 @@ class CollectionContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return loading
                         ? loadList[0]
-                        : LibItem(
-                            title: data[index],
-                            loading: info.loading,
-                            index: info.currentIndex,
-                          );
+                        : LibItem(title: data[index], loading: info.loading);
                   },
                 ),
         );

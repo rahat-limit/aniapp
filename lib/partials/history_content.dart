@@ -14,11 +14,7 @@ class HistoryContent extends StatelessWidget {
       builder: (context, state) {
         var info = state.lib_state.list;
         List<Widget> list = info.history.map((title) {
-          return LibItem(
-            title: title,
-            loading: info.loading,
-            index: info.currentIndex,
-          );
+          return LibItem(title: title, loading: info.loading);
         }).toList();
 
         bool loading = state.lib_state.list.loading;

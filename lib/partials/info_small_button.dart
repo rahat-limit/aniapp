@@ -64,9 +64,7 @@ class _InfoButtonState extends State<InfoButton> {
                 itemExtent: kItemExtent,
                 onSelectedItemChanged: (int selectedItem) {
                   setState(() {
-                    // if (mounted) {
                     genre = selectedItem;
-                    // }
                   });
                 },
                 children: List<Widget>.generate(genres.length, (int index) {
@@ -90,7 +88,6 @@ class _InfoButtonState extends State<InfoButton> {
                     .activeRefreshList();
                 Provider.of<AnimeLibrary>(context, listen: false)
                     .disactiveRefreshListTimes();
-
                 Navigator.pop(context);
               },
               child: const Text('Выбрать'),

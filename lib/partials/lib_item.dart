@@ -7,13 +7,7 @@ import 'package:flutter/material.dart';
 class LibItem extends StatelessWidget {
   final AnimeTitle title;
   bool loading;
-  int index;
-  LibItem({
-    super.key,
-    required this.title,
-    required this.loading,
-    required this.index,
-  });
+  LibItem({super.key, required this.title, required this.loading});
 
   @override
   Widget build(BuildContext context) {

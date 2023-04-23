@@ -211,7 +211,7 @@ class ApiServices {
         final response = await anilibria.searchTitles(
             after: after,
             genres: [searchText],
-            limit: 25,
+            limit: 10,
             filter: list_filters);
 
         for (var element in response) {
@@ -300,7 +300,7 @@ class ApiServices {
       } else {
         final anilibria = Anilibria(Uri.parse(startPoint));
         final response = await anilibria.searchTitles(
-            search: searchText, limit: 25, filter: list_filters);
+            search: searchText, limit: 15, filter: list_filters);
 
         for (var element in response) {
           Response additionalResponse = await _dio.get(
