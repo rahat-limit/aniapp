@@ -70,7 +70,7 @@ class CardButton extends StatelessWidget {
                 width: 10,
               ),
               const Text(
-                'Play',
+                'Воспроизвести',
                 style: TextStyle(fontSize: 18),
               ),
             ],

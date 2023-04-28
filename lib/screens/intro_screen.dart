@@ -27,7 +27,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 children: const [
                   Flexible(
                       child: Text(
-                    'Anime Reels',
+                    'Аниме Подборка',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                   )),
                 ],
@@ -38,7 +38,7 @@ class _IntroScreenState extends State<IntroScreen> {
               child: Row(children: const [
                 Flexible(
                   child: Text(
-                    'Choose the right one for midnight time.',
+                    'Углубитесь в мир японской анимации с нами!',
                     style: TextStyle(fontSize: 21, fontWeight: FontWeight.w500),
                   ),
                 )
@@ -65,7 +65,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       decoration: const BoxDecoration(),
                       child: const Center(
                           child: Text(
-                        'Next',
+                        'Далее',
                         style: TextStyle(
                             fontSize: 21,
                             fontWeight: FontWeight.w300,

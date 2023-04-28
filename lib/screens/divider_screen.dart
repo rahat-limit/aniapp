@@ -32,6 +32,7 @@ class _DividerScreenState extends State<DividerScreen> {
     const SearchScreen(),
     const AccountScreen()
   ];
+
   @override
   void initState() {
     FirebaseAuth.instance.authStateChanges().listen((user) async {
@@ -119,12 +120,12 @@ class _DividerScreenState extends State<DividerScreen> {
                   tabs: [
                     const GButton(
                       icon: CupertinoIcons.home,
-                      text: 'Home',
+                      text: 'Главная',
                       iconSize: 24,
                     ),
                     GButton(
                         icon: CupertinoIcons.heart,
-                        text: 'Library',
+                        text: 'Избранное',
                         leading: state.lib_state.list.recentLikes != 0
                             ? Badge(
                                 label: Text(
@@ -144,12 +145,12 @@ class _DividerScreenState extends State<DividerScreen> {
                             : null),
                     const GButton(
                       icon: CupertinoIcons.search,
-                      text: 'Search',
+                      text: 'Поиск',
                       iconSize: 24,
                     ),
                     const GButton(
                       icon: Icons.person,
-                      text: 'Account',
+                      text: 'Аккаунт',
                       iconSize: 24,
                     ),
                   ],

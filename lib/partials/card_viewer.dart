@@ -1,13 +1,14 @@
 import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
-import 'package:anime_app/state/app_state.dart';
+import 'package:anime_app/state/app_state.dart' as AppState;
 import 'package:anime_app/state/lib_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 class CardViewer extends StatefulWidget {
@@ -20,13 +21,32 @@ class CardViewer extends StatefulWidget {
 class _CardViewerState extends State<CardViewer> {
   bool _clicked = false;
   bool _flag = false;
+  bool isLoaded = false;
+  InterstitialAd? interstitialAd;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    InterstitialAd.load(
+        adUnitId: "ca-app-pub-3940256099942544/1033173712",
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
+          setState(() {
+            isLoaded = true;
+          });
+          interstitialAd = ad;
+          print('loaded');
+        }, onAdFailedToLoad: (error) {
+          print('error ${error.responseInfo}');
+        }));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, AppState>(
+    return StoreConnector<AppState.AppState, AppState.AppState>(
         converter: (store) => store.state,
         builder: (context, state) {
-          var store = StoreProvider.of<AppState>(context);
+          var store = StoreProvider.of<AppState.AppState>(context);
+
           List<AnimeTitle> data = [
             ...store.state.lib_state.list.data,
             ...store.state.lib_state.list.filtered,
@@ -156,6 +176,14 @@ class _CardViewerState extends State<CardViewer> {
                       int? currentIndex,
                       CardSwiperDirection direction,
                     ) {
+                      if (int.parse(currentIndex.toString()) % 8 == 0 &&
+                          isLoaded) {
+                        interstitialAd!.show();
+                        setState(() {
+                          isLoaded = false;
+                        });
+                        didChangeDependencies();
+                      }
                       setState(() {
                         _flag = false;
                       });

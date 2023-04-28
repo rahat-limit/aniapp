@@ -284,7 +284,7 @@ class _TitlePageState extends State<TitlePage> {
                             width: 10,
                           ),
                           const Text(
-                            'Play',
+                            'Воспроизвести',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           )

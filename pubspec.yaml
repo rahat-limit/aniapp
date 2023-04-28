@@ -54,6 +54,7 @@ dependencies:
   url_launcher: ^6.1.10
   path_provider: ^2.0.14
   path: ^1.8.2
+  google_mobile_ads: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

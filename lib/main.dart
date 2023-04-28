@@ -25,12 +25,11 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AnimeLibrary())],
-      child: MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => AnimeLibrary()),
+  ], child: MyApp()));
 }
 
-// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   var store = Store(stateReducer,
       initialState: AppState.initial(), middleware: [thunkMiddleware]);
