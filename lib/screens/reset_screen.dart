@@ -83,7 +83,7 @@ class ResetScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
-                child: Row(children: const [
+                child: const Row(children: [
                   Icon(
                     Icons.arrow_back_sharp,
                     color: Color(0xFF539DB4),

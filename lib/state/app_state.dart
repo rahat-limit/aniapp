@@ -1,7 +1,6 @@
 import 'package:anime_app/state/lib_state.dart';
-import 'package:meta/meta.dart';
 
-@immutable
+// @immutable
 class AppState {
   AnimeState lib_state;
 

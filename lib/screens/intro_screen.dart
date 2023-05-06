@@ -20,11 +20,11 @@ class _IntroScreenState extends State<IntroScreen> {
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Image.asset('assets/images/intro.png')),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 20, left: 35, right: 35, bottom: 10),
+            const Padding(
+              padding:
+                  EdgeInsets.only(top: 20, left: 35, right: 35, bottom: 10),
               child: Row(
-                children: const [
+                children: [
                   Flexible(
                       child: Text(
                     'Аниме Подборка',
@@ -33,9 +33,9 @@ class _IntroScreenState extends State<IntroScreen> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35),
-              child: Row(children: const [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 35),
+              child: Row(children: [
                 Flexible(
                   child: Text(
                     'Углубитесь в мир японской анимации с нами!',

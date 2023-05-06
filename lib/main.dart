@@ -24,12 +24,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => AnimeLibrary()),
-  ], child: MyApp()));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(MultiProvider(providers: [
+            ChangeNotifierProvider(create: (_) => AnimeLibrary()),
+          ], child: MyApp())));
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   var store = Store(stateReducer,
       initialState: AppState.initial(), middleware: [thunkMiddleware]);
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
     return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
             scaffoldBackgroundColor: const Color(0xFFE8E8E8),
             primaryColor: const Color(0xFFE8E8E8),

@@ -1,6 +1,7 @@
 import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
+// ignore: library_prefixes
 import 'package:anime_app/state/app_state.dart' as AppState;
 import 'package:anime_app/state/lib_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,17 +28,16 @@ class _CardViewerState extends State<CardViewer> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     InterstitialAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/1033173712",
-        request: AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
-          setState(() {
-            isLoaded = true;
-          });
-          interstitialAd = ad;
-          print('loaded');
-        }, onAdFailedToLoad: (error) {
-          print('error ${error.responseInfo}');
-        }));
+        adUnitId: "ca-app-pub-7114356792970424/8117483303",
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad) {
+              setState(() {
+                isLoaded = true;
+              });
+              interstitialAd = ad;
+            },
+            onAdFailedToLoad: (error) {}));
   }
 
   @override

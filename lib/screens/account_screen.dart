@@ -58,9 +58,9 @@ class AccountScreen extends StatelessWidget {
                       height: 30,
                     ),
                     FirebaseAuth.instance.currentUser!.emailVerified
-                        ? Row(
+                        ? const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Text('Почта подтверждена'),
                               SizedBox(
                                 width: 10,

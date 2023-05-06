@@ -1,0 +1,90 @@
+# Query: com.example
+# ContextLines: 1
+
+19 results - 13 files
+
+android/app/build.gradle:
+  56          // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+  57:         applicationId "com.example.anime_app"
+  58          // You can update the following values to match your application needs.
+
+android/app/google-services.json:
+  11          "android_client_info": {
+  12:           "package_name": "com.example.anime_app"
+  13          }
+
+  36                "ios_info": {
+  37:                 "bundle_id": "com.example.animeApp"
+  38                }
+
+android/app/src/debug/AndroidManifest.xml:
+  1  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  2:     package="com.example.anime_app">
+  3      <!-- The INTERNET permission is required for development. Specifically,
+
+android/app/src/main/AndroidManifest.xml:
+  1  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  2:     package="com.example.anime_app">
+  3     <application
+
+android/app/src/main/kotlin/com/example/MainActivity.kt:
+  1: package com.example.anime_app
+  2  
+
+android/app/src/profile/AndroidManifest.xml:
+  1  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  2:     package="com.example.anime_app">
+  3      <!-- The INTERNET permission is required for development. Specifically,
+
+ios/Runner/GoogleService-Info.plist:
+  15  	<key>BUNDLE_ID</key>
+  16: 	<string>com.example.animeApp</string>
+  17  	<key>PROJECT_ID</key>
+
+ios/Runner.xcodeproj/project.pbxproj:
+  392  				);
+  393: 				PRODUCT_BUNDLE_IDENTIFIER = com.example.animeAppKana;
+  394  				PRODUCT_NAME = "$(TARGET_NAME)";
+
+  525  				);
+  526: 				PRODUCT_BUNDLE_IDENTIFIER = com.example.animeAppKana;
+  527  				PRODUCT_NAME = "$(TARGET_NAME)";
+
+  552  				);
+  553: 				PRODUCT_BUNDLE_IDENTIFIER = com.example.animeAppKana;
+  554  				PRODUCT_NAME = "$(TARGET_NAME)";
+
+lib/firebase_options.dart:
+  69      iosClientId: '296294164908-03pfc1k6855hgresa7emdq4iv32vka2r.apps.googleusercontent.com',
+  70:     iosBundleId: 'com.example.animeApp',
+  71    );
+
+  79      iosClientId: '296294164908-03pfc1k6855hgresa7emdq4iv32vka2r.apps.googleusercontent.com',
+  80:     iosBundleId: 'com.example.animeApp',
+  81    );
+
+linux/CMakeLists.txt:
+   9  # https://wiki.gnome.org/HowDoI/ChooseApplicationID
+  10: set(APPLICATION_ID "com.example.anime_app")
+  11  
+
+macos/Runner/GoogleService-Info.plist:
+  15  	<key>BUNDLE_ID</key>
+  16: 	<string>com.example.animeApp</string>
+  17  	<key>PROJECT_ID</key>
+
+macos/Runner/Configs/AppInfo.xcconfig:
+  10  // The application's bundle identifier
+  11: PRODUCT_BUNDLE_IDENTIFIER = com.example.animeApp
+  12  
+  13  // The copyright displayed in application information
+  14: PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
+
+windows/runner/Runner.rc:
+  91          BEGIN
+  92:             VALUE "CompanyName", "com.example" "\0"
+  93              VALUE "FileDescription", "anime_app" "\0"
+
+  95              VALUE "InternalName", "anime_app" "\0"
+  96:             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
+  97              VALUE "OriginalFilename", "anime_app.exe" "\0"

@@ -56,6 +56,8 @@ dependencies:
   path: ^1.8.2
   google_mobile_ads: ^3.0.0
 dev_dependencies:
+  change_app_package_name: ^1.1.0
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
 
@@ -68,6 +70,15 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_icons:  
+  android: true
+  ios: true
+  image_path_ios: "dev_assets/appstore.png"
+  image_path_android: "dev_assets/logot.png"
+  adaptive_icon_background: '#ffffff'
+  adaptive_icon_padding: true
+  adaptive_icon_foreground: "dev_assets/playstore.png"
 
 # The following section is specific to Flutter packages.
 flutter:

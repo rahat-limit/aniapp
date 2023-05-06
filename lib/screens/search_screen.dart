@@ -1,7 +1,6 @@
 import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/partials/info_small_button.dart';
 import 'package:anime_app/partials/lib_item.dart';
-import 'package:anime_app/partials/loading_items.dart';
 import 'package:anime_app/provider/anime_library.dart';
 import 'package:anime_app/redux/actions/actions.dart';
 import 'package:anime_app/state/app_state.dart';
@@ -69,9 +68,9 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             margin: const EdgeInsets.only(top: 30, bottom: 20),
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Expanded(
                   child: Text(
                     'Уже нашли?',
@@ -111,7 +110,6 @@ class _SearchScreenState extends State<SearchScreen> {
           StoreConnector<AppState, AppState>(
               converter: (store) => store.state,
               builder: (context, state) {
-                bool loading = state.lib_state.list.loading;
                 var data = state.lib_state.list.search;
                 return !Provider.of<AnimeLibrary>(context, listen: true)
                         .searchActive
