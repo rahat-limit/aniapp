@@ -620,7 +620,7 @@ PODS:
     - FirebaseCore (= 10.7.0)
   - Firebase/Firestore (10.7.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (~> 10.7.0)
+    - FirebaseFirestore (~> 10p.7.0)
   - firebase_auth (4.4.2):
     - Firebase/Auth (= 10.7.0)
     - firebase_core

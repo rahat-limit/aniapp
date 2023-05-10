@@ -35,6 +35,11 @@
         <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7114356792970424~6664214105"/>
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+        <!-- <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7114356792970424~6664214105"/> -->
+<!-- ca-app-pub-7114356792970424~2033540237 -->
+<!-- ca-app-pub-7114356792970424/8326991000 banner -->
     </application>
 </manifest>

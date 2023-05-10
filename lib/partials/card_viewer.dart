@@ -24,11 +24,10 @@ class _CardViewerState extends State<CardViewer> {
   bool _flag = false;
   bool isLoaded = false;
   InterstitialAd? interstitialAd;
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    InterstitialAd.load(
-        adUnitId: "ca-app-pub-7114356792970424/8117483303",
+  void loadAd() async {
+    await MobileAds.instance.initialize();
+    await InterstitialAd.load(
+        adUnitId: "ca-app-pub-3940256099942544/1033173712",
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
             onAdLoaded: (ad) {
@@ -38,6 +37,12 @@ class _CardViewerState extends State<CardViewer> {
               interstitialAd = ad;
             },
             onAdFailedToLoad: (error) {}));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadAd();
   }
 
   @override
@@ -182,7 +187,7 @@ class _CardViewerState extends State<CardViewer> {
                         setState(() {
                           isLoaded = false;
                         });
-                        didChangeDependencies();
+                        loadAd();
                       }
                       setState(() {
                         _flag = false;
