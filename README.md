@@ -49,7 +49,7 @@ A few of the things you can do with Notio:
 ## ✖️ Splash Screen and Home Page
 <p align='center'>
     <image src='https://github.com/rahat-limit/aniapp/blob/master/git-assets/-2147483648_-210891.jpg' width='200'/>
-    <image src='https://github.com/rahat-limit/aniapp/blob/master/git-assets/Screenshot_1683719492.png' width='200'/>
+    <image src='https://github.com/rahat-limit/aniapp/blob/main/git-assets/IMG_20230506_204750_545.jpg' width='200'/>
 </p>
 
 ## ✖️ Authentication
