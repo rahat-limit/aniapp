@@ -189,7 +189,6 @@ For this task, I chose DIO Http Client package due to simple, useful and fully s
   <img src = "https://github.com/rahat-limit/aniapp/blob/main/git-assets/Screenshot_1683719492.png" width=200>
 </p>
 
-## ✖️ More Images
 <p align="center">
   <img src = "https://github.com/rahat-limit/aniapp/blob/main/git-assets/IMG_20230506_204750_106.jpg" width=200>
   <img src = "https://github.com/rahat-limit/aniapp/blob/main/git-assets/IMG_20230506_204750_196.jpg" width=200>
