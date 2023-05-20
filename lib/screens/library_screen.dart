@@ -2,6 +2,7 @@ import 'package:anime_app/model/Title.dart';
 import 'package:anime_app/partials/collection_content.dart';
 import 'package:anime_app/partials/history_content.dart';
 import 'package:anime_app/redux/actions/actions.dart';
+import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
           store.dispatch(ReloadTitlesAction());
         }
       }
+      FileSystem().readData().then((value) => print(value));
     });
     super.initState();
   }

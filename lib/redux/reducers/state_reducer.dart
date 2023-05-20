@@ -1,7 +1,12 @@
 import 'package:anime_app/model/Title.dart';
+import 'package:anime_app/services/file_system.dart';
 import 'package:anime_app/state/app_state.dart';
 import 'package:anime_app/redux/actions/actions.dart';
 import 'package:anime_app/state/lib_state.dart';
+
+Future setInfo(String ids) async {
+  await FileSystem().writeData(ids);
+}
 
 AppState stateReducer(AppState state, dynamic action) {
   if (action is GetRandomTitleAction) {
@@ -106,8 +111,32 @@ AppState stateReducer(AppState state, dynamic action) {
 
     if (liked.contains(action.title)) {
       liked.remove(action.title);
+      var ids = '';
+
+      for (int i = 0; i < liked.length; i++) {
+        // if (liked[i] != action.title) {
+        String sep = '';
+        if (i + 1 != liked.length) sep = ',';
+        ids = '$ids${liked[i].id}$sep';
+        // }
+      }
+
+      setInfo(ids);
+      // remove from storage
     } else {
       liked.add(action.title);
+      var ids = '';
+
+      for (int i = 0; i < liked.length; i++) {
+        // if (liked[i] != action.title) {
+        String sep = '';
+        if (i + 1 != liked.length) sep = ',';
+        ids = '$ids${liked[i].id}$sep';
+        // }
+      }
+
+      setInfo(ids);
+      // add to storage
     }
 
     AppState newState = AppState(

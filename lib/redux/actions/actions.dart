@@ -80,16 +80,7 @@ ThunkAction<AppState> getStoreOnDeviceTitles(String ids) {
 ThunkAction<AppState> storeOnDevice(AnimeTitle title, List<AnimeTitle> liked,
     [bool col = false]) {
   return (Store store) async {
-    var ids = '';
-    for (int i = 0; i < liked.length; i++) {
-      if (liked[i] != title) {
-        String sep = '';
-        if (i + 1 != liked.length) sep = ',';
-        ids = '$ids${liked[i].id}$sep';
-      }
-    }
-
-    await FileSystem().writeData(ids);
+    // print('$ids This is');
     store.dispatch(ToggleLikeAction(title, col));
   };
 }

@@ -27,7 +27,7 @@ class _CardViewerState extends State<CardViewer> {
   void loadAd() async {
     await MobileAds.instance.initialize();
     await InterstitialAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/1033173712",
+        adUnitId: "ca-app-pub-7114356792970424/2324689437",
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
             onAdLoaded: (ad) {
@@ -81,6 +81,7 @@ class _CardViewerState extends State<CardViewer> {
                       var likedTitle =
                           Provider.of<AnimeLibrary>(context, listen: false)
                               .toggleToLikedProvider(item.id, data);
+
                       store.dispatch(storeOnDevice(
                           likedTitle, store.state.lib_state.list.liked, fl));
                       setState(() {
@@ -164,14 +165,12 @@ class _CardViewerState extends State<CardViewer> {
             child: loading
                 ? loadList[0]
                 : CardSwiper(
-                    padding: const EdgeInsets.only(
-                        left: 20, right: 20, bottom: 20, top: 10),
+                    padding: const EdgeInsets.all(20),
                     scale: 1,
                     initialIndex: lib.currentIndex <= lib.data.length
                         ? lib.currentIndex
                         : lib.currentIndex - 1,
-                    numberOfCardsDisplayed: 2,
-                    isVerticalSwipingEnabled: false,
+                    numberOfCardsDisplayed: 3,
                     isLoop: false,
                     isDisabled: loading ? true : false,
                     direction: CardSwiperDirection.left,

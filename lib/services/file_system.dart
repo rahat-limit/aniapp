@@ -1,8 +1,37 @@
 import 'dart:io';
-
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart' as sql;
+import 'package:sqflite/sqlite_api.dart';
+import 'package:path/path.dart' as path;
 
 class FileSystem {
+  Future createOrUseDB() async {
+    final dbPath = await sql.getDatabasesPath();
+    sql.openDatabase(
+      path.join(dbPath, 'collection.db'),
+      onCreate: (db, version) {
+        return db.execute(
+            'CREATE TABLE anime_titles(id TEXT PRIMARY KEY, code TEXT, )');
+        //   final int id;
+        // final String code;
+        // final Map<String, dynamic> names;
+        // final String description;
+        // final dynamic announce;
+        // List<dynamic>? genres = [];
+        // final Map<String, dynamic> team;
+        // final Map<String, dynamic> season;
+        // final Map<String, dynamic> status;
+        // final Map<String, dynamic> posters;
+        // final Map<String, dynamic> type;
+        // final Map<String, dynamic> player;
+        // String rating;
+        // String ageRating;
+        // bool isLiked = false;
+        // String trailer;
+      },
+    );
+  }
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 

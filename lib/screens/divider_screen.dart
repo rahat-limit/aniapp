@@ -29,7 +29,7 @@ class _DividerScreenState extends State<DividerScreen> {
   final List<Widget> _pages = [
     const HomeScreen(),
     const LibraryScreen(),
-    const SearchScreen(),
+    // const SearchScreen(),
     const AccountScreen()
   ];
 
@@ -67,15 +67,15 @@ class _DividerScreenState extends State<DividerScreen> {
     return Scaffold(
       bottomNavigationBar: Provider.of<AnimeLibrary>(context).isAuth
           ? Padding(
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, bottom: 40, top: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
               child: StoreConnector<AppState, AppState>(
                 converter: (store) => store.state,
                 builder: (context, state) => GNav(
                   color: Colors.black,
                   activeColor: Colors.white70,
                   gap: 10,
-                  padding: const EdgeInsets.all(15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
                   // ignore: use_full_hex_values_for_flutter_colors
                   tabBackgroundColor: const Color(0xfff9b8686),
                   onTabChange: (value) {
@@ -98,13 +98,6 @@ class _DividerScreenState extends State<DividerScreen> {
                         {
                           setState(() {
                             _pageIndex = 2;
-                          });
-                        }
-                        break;
-                      case 3:
-                        {
-                          setState(() {
-                            _pageIndex = 3;
                           });
                         }
                         break;
@@ -143,11 +136,6 @@ class _DividerScreenState extends State<DividerScreen> {
                                 ),
                               )
                             : null),
-                    const GButton(
-                      icon: CupertinoIcons.search,
-                      text: 'Поиск',
-                      iconSize: 24,
-                    ),
                     const GButton(
                       icon: Icons.person,
                       text: 'Аккаунт',
