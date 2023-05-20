@@ -193,5 +193,5 @@ For this task, I chose DIO Http Client package due to simple, useful and fully s
   <img src = "https://github.com/rahat-limit/aniapp/blob/main/git-assets/IMG_20230506_204750_106.jpg" width=200>
   <img src = "https://github.com/rahat-limit/aniapp/blob/main/git-assets/IMG_20230506_204750_196.jpg" width=200>
 </p>
-<h3>Thank you to all! Please hire me... 🙏</h3>
+<h3>Thank you to all! Hire me... 🙏</h3>
 
