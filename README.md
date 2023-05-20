@@ -189,10 +189,12 @@ For this task, I chose DIO Http Client package due to simple, useful and fully s
   <img src = "https://github.com/rahat-limit/notio/blob/master/git-repo-assets/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-05-18%20at%2017.01.20.png" width=200>
 </p>
 
-## ✖️ Advertisement
-Decided to add banner ad by MobAds. Which I find the simplest way of integration and most suitable for this kind of app.  
+## ✖️ More Images
 <p align="center">
-  <img src = "https://github.com/rahat-limit/notio/blob/master/git-repo-assets/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-05-18%20at%2017.02.26.png" width=200>
+  <img src = "https://github.com/rahat-limit/aniapp/blob/main/git-assets/IMG_20230506_204750_106.jpg" width=200>
+  <img src = "https://github.com/rahat-limit/aniapp/blob/main/git-assets/IMG_20230506_204750_106.jpg" width=200>
+  <img src = "https://github.com/rahat-limit/aniapp/blob/main/git-assets/IMG_20230506_204750_106.jpg" width=200>
+    
 </p>
 <h3>Thank you to all! Please hire me... 🙏</h3>
 
